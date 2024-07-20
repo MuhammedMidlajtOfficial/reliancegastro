@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import { FiGrid, FiBriefcase, FiUsers, FiImage, FiHelpCircle, FiSettings, FiLogOut, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiGrid, FiBriefcase, FiUsers, FiImage, FiHelpCircle, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare } from "react-icons/fi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -44,10 +44,10 @@ function Sidebar() {
         { name: "Overview", path: "/overview", icon: <FiGrid /> },
         { name: "Appointments", path: "/appointments", icon: <FiBriefcase /> },
         { name: "Patients Overview", path: "/patients-overview", icon: <FiUsers /> },
-        { name: "Patient Logs", path: "/patient-logs", icon: <FiUsers /> },
-        { name: "User Accounts", path: "/user-accounts", icon: <FiUsers /> },
-        { name: "User Logs", path: "/user-logs", icon: <FiUsers /> },
-        { name: "Recent Activities", path: "/recent-activities", icon: <FiGrid /> },
+        { name: "Patient Logs", path: "/patient-logs", icon: <FiUserCheck /> },
+        { name: "User Accounts", path: "/user-accounts", icon: <FiUserPlus /> },
+        { name: "User Logs", path: "/user-logs", icon: <FiUserX /> },
+        { name: "Recent Activities", path: "/recent-activities", icon: <FiActivity /> },
       ],
     },
     {
@@ -68,7 +68,7 @@ function Sidebar() {
     },
     {
       name: "Messages",
-      icon: <FiImage className="sidebar-icon" />,
+      icon: <FiMessageSquare className="sidebar-icon" />,
       subMenu: [
         { name: "Submenu 1", path: "/messages/submenu1", icon: <FiImage /> },
         { name: "Submenu 2", path: "/messages/submenu2", icon: <FiImage /> },
@@ -76,7 +76,7 @@ function Sidebar() {
     },
     {
       name: "Notification",
-      icon: <FiHelpCircle className="sidebar-icon" />,
+      icon: <FiBell className="sidebar-icon" />,
       subMenu: [
         { name: "Submenu 1", path: "/notification/submenu1", icon: <FiHelpCircle /> },
         { name: "Submenu 2", path: "/notification/submenu2", icon: <FiHelpCircle /> },
