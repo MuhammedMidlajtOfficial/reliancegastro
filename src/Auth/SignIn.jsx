@@ -27,6 +27,14 @@ const SignIn = () => {
 
     const sliderItems = [
         {
+            image: login4,
+            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        },
+        {
+            image: login5,
+            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        },
+        {
             image: login1,
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         },
@@ -37,15 +45,7 @@ const SignIn = () => {
         {
             image: login3,
             text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        },
-        {
-            image: login4,
-            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        },
-        {
-            image: login5,
-            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        },
+        }
     ];
 
     const checkToken = async () => {
