@@ -69,7 +69,7 @@ const Header = () => {
               <div className="user-info">
                 <span
                   style={{
-                    color: "#ce1b28",
+                    color: "#00963f",
                     fontSize: "16px",
                     fontWeight: "600",
                     letterSpacing: "0.5px",

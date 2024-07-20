@@ -1,8 +1,8 @@
 .navbar-header {
-    background: #f9f9fb;
+    background: #FFF;
     padding: 12px 24px;
     margin-left: 240px;
-    border-bottom: 1px solid #d4d4e2;
+    border-bottom: 1px solid #CBCBCB;
     position: sticky;
     top: 0;
     z-index: 999;
@@ -77,11 +77,11 @@
 }
 
 input:checked+.slider {
-    background-color: #ce1b28;
+    background-color: #00963f;
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #ce1b28;
+    box-shadow: 0 0 1px #00963f;
 }
 
 input:checked+.slider:before {
@@ -97,7 +97,7 @@ input:checked+.slider:before {
     left: 8px;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #ce1b28;
+    color: #00963f;
     transition: opacity 0.4s ease;
 }
 
@@ -142,7 +142,7 @@ input:checked+.slider .sun-icon {
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 16px;
-    color: #ce1b28;
+    color: #00963f;
 }
 
 
@@ -161,10 +161,10 @@ input:checked+.slider .sun-icon {
     position: absolute;
     top: -10px;
     right: 0;
-    background-color: #ce1b28;
+    background-color: #00963f;
     color: #fff;
     border-radius: 50%;
-    padding: 3px 6px;
+    padding: 6px;
     font-size: 10px;
 }
 
@@ -191,7 +191,7 @@ input:checked+.slider .sun-icon {
     position: absolute;
     top: calc(85%);
     right: 15px;
-    background: #ce1b28;
+    background: #00963f;
     border-radius: 4px;
     z-index: 999;
     display: block;
@@ -208,7 +208,7 @@ input:checked+.slider .sun-icon {
     right: 24px;
     border-width: 0 8px 8px 8px;
     border-style: solid;
-    border-color: transparent transparent #ce1b28 transparent;
+    border-color: transparent transparent #00963f transparent;
 }
 
 
@@ -242,7 +242,7 @@ input:checked+.slider .sun-icon {
 /* ================================================================================================== */
 
 .line-dashed {
-    border-bottom: 2px dashed #ce1b28;
+    border-bottom: 2px dashed #00963f;
     margin: 8px 0 16px 0;
 }
 
@@ -259,7 +259,7 @@ input:checked+.slider .sun-icon {
     background: #fff;
     padding: 0px;
     border-radius: 12px;
-    color: #ce1b28;
+    color: #00963f;
     font-size: 24px;
     font-weight: 600;
     width: 44px;
@@ -294,10 +294,10 @@ input:checked+.slider .sun-icon {
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #f9f9fb;
+    background-color: #fff;
     transition: left 0.3s ease;
     z-index: 1000;
-    border-right: 1px solid #d4d4e2;
+    border-right: 1px solid #cbcbcb;
 }
 
 .sidebar.open {
@@ -311,7 +311,7 @@ input:checked+.slider .sun-icon {
 }
 
 .sidebar-content {
-    padding: 8px 12px 24px 12px;
+    padding: 10px 16px;
 }
 
 .sidebar-header {
@@ -319,8 +319,8 @@ input:checked+.slider .sun-icon {
 }
 
 .sidebar-header img {
-    width: 160px;
-    padding: 0 0 16px 0;
+    width: 140px;
+    padding: 0 0 20px 0;
 }
 
 .sidebar-nav {
@@ -347,27 +347,32 @@ input:checked+.slider .sun-icon {
 
 .sidebar-nav ul li {
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
-.sidebar-nav ul li a {
-    font-size: 15px;
+.main-menus{
+    font-size: 16px;
     font-weight: 600;
     line-height: normal;
     letter-spacing: 0;
-    color: #a0aec0;
+    color: #000;
+}
+
+.sidebar-nav ul li a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0;
+    color: #000;
     border-radius: 24px;
     text-decoration: none;
-    padding: 8px 24px;
+    padding: 8px 12px;
     width: 100%;
 }
 
 .sidebar-nav ul li a:hover {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0;
     color: #fff;
-    background: #ce1b28;
+    background: #00963f;
 }
 
 .sidebar-nav ul li a svg {
@@ -391,7 +396,7 @@ input:checked+.slider .sun-icon {
 }
 
 .sidebar-icon {
-    color: #ce1b28;
+    color: #00963f;
 }
 
 .active-nav-links {
@@ -400,7 +405,7 @@ input:checked+.slider .sun-icon {
     line-height: normal;
     letter-spacing: 0;
     color: #fff !important;
-    background: #ce1b28;
+    background: #00963f;
 }
 
 .active-nav-links .sidebar-icon {
@@ -414,4 +419,5 @@ input:checked+.slider .sun-icon {
 .main-wrapper {
     padding: 24px 32px;
     margin-left: 240px;
+    background: #f9f7f7;
 }

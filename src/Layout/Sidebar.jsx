@@ -2,33 +2,26 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import {
-  FiGrid,
-  FiBriefcase,
-  FiUsers,
-  FiImage,
-  FiHelpCircle,
-  FiSettings,
-  FiLogOut,
-} from "react-icons/fi";
-
-import { FaRegFilePowerpoint } from "react-icons/fa6";
-import Swal from 'sweetalert2'
-// import logoutimg from "../../Assets/icons/logout.svg"
+import { FiGrid, FiBriefcase, FiUsers, FiImage, FiHelpCircle, FiSettings, FiLogOut, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import Swal from 'sweetalert2';
 
 function Sidebar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [expandedMenu, setExpandedMenu] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem('loginUserData'));
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handlelogout = () => {
+  const handleMenuClick = (menuName) => {
+    setExpandedMenu(expandedMenu === menuName ? null : menuName);
+  };
+
+  const handleLogout = () => {
     Swal.fire({
-    //   imageUrl: logoutimg,
       title: "Are you sure",
       text: "You want to Logout?",
       showCancelButton: true,
@@ -37,172 +30,115 @@ function Sidebar() {
       confirmButtonText: "Yes, logout me!"
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem("token")
-        navigate("/")
+        localStorage.removeItem("token");
+        navigate("/");
       }
-    })
-  }
+    });
+  };
 
+  const menuItems = [
+    {
+      name: "User Management",
+      icon: <FiGrid className="sidebar-icon" />,
+      subMenu: [
+        { name: "Overview", path: "/overview", icon: <FiGrid /> },
+        { name: "Appointments", path: "/appointments", icon: <FiBriefcase /> },
+        { name: "Patients Overview", path: "/patients-overview", icon: <FiUsers /> },
+        { name: "Patient Logs", path: "/patient-logs", icon: <FiUsers /> },
+        { name: "User Accounts", path: "/user-accounts", icon: <FiUsers /> },
+        { name: "User Logs", path: "/user-logs", icon: <FiUsers /> },
+        { name: "Recent Activities", path: "/recent-activities", icon: <FiGrid /> },
+      ],
+    },
+    {
+      name: "Appointments",
+      icon: <FiBriefcase className="sidebar-icon" />,
+      subMenu: [
+        { name: "Submenu 1", path: "/appointments/submenu1", icon: <FiBriefcase /> },
+        { name: "Submenu 2", path: "/appointments/submenu2", icon: <FiBriefcase /> },
+      ],
+    },
+    {
+      name: "Patients",
+      icon: <FiUsers className="sidebar-icon" />,
+      subMenu: [
+        { name: "Submenu 1", path: "/patients/submenu1", icon: <FiUsers /> },
+        { name: "Submenu 2", path: "/patients/submenu2", icon: <FiUsers /> },
+      ],
+    },
+    {
+      name: "Messages",
+      icon: <FiImage className="sidebar-icon" />,
+      subMenu: [
+        { name: "Submenu 1", path: "/messages/submenu1", icon: <FiImage /> },
+        { name: "Submenu 2", path: "/messages/submenu2", icon: <FiImage /> },
+      ],
+    },
+    {
+      name: "Notification",
+      icon: <FiHelpCircle className="sidebar-icon" />,
+      subMenu: [
+        { name: "Submenu 1", path: "/notification/submenu1", icon: <FiHelpCircle /> },
+        { name: "Submenu 2", path: "/notification/submenu2", icon: <FiHelpCircle /> },
+      ],
+    },
+    { name: "Setting", icon: <FiSettings className="sidebar-icon" />, path: "/setting" },
+    { name: "Logout", icon: <FiLogOut className="sidebar-icon" />, action: handleLogout },
+  ];
+
+  const renderMenu = (menu) => (
+    <ul>
+      {menu.map((item, index) => (
+        <li key={index}>
+          {item.subMenu ? (
+            <>
+              <div className="nav-link py-2 rounded-xl mb-2 d-flex justify-content-between align-items-center" onClick={() => handleMenuClick(item.name)}>
+                <span className="main-menus">{item.icon} {item.name}</span>
+                {expandedMenu === item.name ? <FiChevronUp className="sidebar-icon" /> : <FiChevronDown className="sidebar-icon" />}
+              </div>
+              {expandedMenu === item.name && renderMenu(item.subMenu)}
+            </>
+          ) : (
+            <Link
+              to={item.path}
+              onClick={item.action ? item.action : () => navigate(item.path)}
+              className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === item.path ? "active-nav-links" : ""}`}
+            >
+              <span className="me-3">{item.icon} {item.name}</span>
+            </Link>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
-    <>
-      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-        <button
-          className="toggle-btn d-block d-sm-none"
-          onClick={toggleSidebar}
-        >
-          <span className="visually-hidden">Toggle sidebar</span>
-          <span className="navbar-toggler-icon" />
-        </button>
-
-        <aside className="sidebar-content">
-          <div className="sidebar-header">
-            <img src={logo} alt="logo" />
-          </div>
-          <nav className="sidebar-nav">
-            <ul>
-              <li>
-                <Link
-                  to="/dashboard"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/dashboard"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
+    <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+      <button className="toggle-btn d-block d-sm-none" onClick={toggleSidebar}>
+        <span className="visually-hidden">Toggle sidebar</span>
+        <span className="navbar-toggler-icon" />
+      </button>
+      <aside className="sidebar-content">
+        <div className="sidebar-header">
+          <img src={logo} alt="logo" />
+        </div>
+        <nav className="sidebar-nav">
+          {renderMenu(menuItems.filter(item => item.subMenu))}
+          <ul>
+            {menuItems.filter(item => !item.subMenu).map((item, index) => (
+              <li key={index}>
+                <div
+                  className="nav-link py-2 rounded-xl mb-2 d-flex justify-content-between align-items-center"
+                  onClick={item.action ? item.action : () => navigate(item.path)}
                 >
-                  <span className="me-3">
-                    <FiGrid className="sidebar-icon" /> Dashboard
-                  </span>
-                </Link>
+                  <span className="main-menus">{item.icon} {item.name}</span>
+                </div>
               </li>
-              {userInfo?.role === 'ADMIN' && <li>
-                <Link
-                  onClick={() => { localStorage.setItem("post", true) }}
-                  to="/post"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/post"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FaRegFilePowerpoint className="sidebar-icon" /> Posts
-                  </span>
-                </Link>
-              </li>}
-
-              <li>
-                <Link
-                  to="/general-applicants"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/general-applicants"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                  <FiUsers className="sidebar-icon" /> General Applicants
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/jobs"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/jobs"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiBriefcase className="sidebar-icon" /> Jobs
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/applicants"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/applicants"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiUsers className="sidebar-icon" /> Applicants
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => { localStorage.setItem("gallery", true) }}
-                  to="/gallery"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/gallery"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiImage className="sidebar-icon" /> Media
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/user"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/user"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiUsers className="sidebar-icon" /> Users
-                  </span>
-                </Link>
-              </li>
-
-              <div className="line-dashed"></div>
-
-              <li>
-                <Link
-                  to="/setting"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/setting"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiSettings className="sidebar-icon" /> Setting
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/help"
-                  className={`nav-link py-2 rounded-xl mb-2 ${location.pathname === "/help"
-                    ? "active-nav-links"
-                    : "#A0AEC0"
-                    }`}
-                >
-                  <span className="me-3">
-                    <FiHelpCircle className="sidebar-icon" /> Help & Support
-                  </span>
-                </Link>
-              </li>
-
-
-
-              <li>
-                <Link
-                  className={`nav-link py-2 rounded-xl ${location.pathname === "/" ? "active-nav-links" : "#A0AEC0"
-                    }`}
-                  onClick={handlelogout}
-                >
-                  <span className="me-3">
-                    <FiLogOut className="sidebar-icon" /> Logout
-                  </span>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </aside>
-      </div>
-    </>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </div>
   );
 }
 
