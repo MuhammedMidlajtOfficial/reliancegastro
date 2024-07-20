@@ -25,7 +25,7 @@ const Header = () => {
       text: "You want to Logout?",
       showCancelButton: true,
       confirmButtonColor: "#555",
-      cancelButtonColor: "#ce1b28",
+      cancelButtonColor: "#00963f",
       confirmButtonText: "Yes, logout me!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -49,7 +49,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{position:"sticky", top:"0", zIndex:"999"}}>
       <nav className="navbar-header">
         <div className="d-flex w-100 justify-content-end">
           <div className="d-flex align-items-center gap-2">

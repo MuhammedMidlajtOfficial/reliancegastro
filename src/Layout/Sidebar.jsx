@@ -26,7 +26,7 @@ function Sidebar() {
       text: "You want to Logout?",
       showCancelButton: true,
       confirmButtonColor: "#555",
-      cancelButtonColor: "#ce1b28",
+      cancelButtonColor: "#00963f",
       confirmButtonText: "Yes, logout me!"
     }).then((result) => {
       if (result.isConfirmed) {

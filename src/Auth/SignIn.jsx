@@ -57,7 +57,7 @@ const SignIn = () => {
                 }
             });
             if (response.status === 200) {
-                navigate('/dashboard')
+                navigate('/overview')
             }
         } catch (error) {
             // No token present means login is required
@@ -79,8 +79,8 @@ const SignIn = () => {
                 if (responseData) {
                     localStorage.setItem("loginUserData", JSON.stringify(responseData));
                     localStorage.setItem('token', responseData.token);
-                    localStorage.setItem("dashboard", true);
-                    navigate("/dashboard");
+                    localStorage.setItem("overview", true);
+                    navigate("/overview");
                 }
             }
         } catch (error) {
@@ -170,7 +170,7 @@ const SignIn = () => {
                         Forgot Password?
                     </Link>
                     <button className="login-button" onClick={ReDirect}>
-                        {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /> : 'Log In'}
+                        {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color:"#fff" }} spin />} /> : 'Log In'}
                     </button>
                     <p className="login-link">
                         Do not have an account? <Link to="/sign-up">Sign Up</Link>

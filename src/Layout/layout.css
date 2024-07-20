@@ -3,9 +3,6 @@
     padding: 12px 24px;
     margin-left: 240px;
     border-bottom: 1px solid #CBCBCB;
-    position: sticky;
-    top: 0;
-    z-index: 999;
 }
 
 .search-container {
@@ -417,7 +414,11 @@ input:checked+.slider .sun-icon {
 }
 
 .main-wrapper {
-    padding: 24px 32px;
+    padding: 24px;
     margin-left: 240px;
     background: #f9f7f7;
+}
+
+.ant-table-wrapper table{
+    font-family: "Inter";
 }

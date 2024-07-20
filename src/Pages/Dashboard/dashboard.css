@@ -71,6 +71,160 @@
     padding: 2px 8px;
 }
 
+.statistics-data {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.statistics-icons-1,
+.statistics-icons-2,
+.statistics-icons-3 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+    margin-right: 16px;
+}
+
+.statistics-icons-1 {
+    background: #A69DFFE3;
+}
+
+.statistics-icons-2 {
+    background: #FFA0A9;
+}
+
+.statistics-icons-3 {
+    background: #FFCB64;
+}
+
+.ant-statistic .ant-statistic-title {
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
+    letter-spacing: -0.1px;
+    line-height: normal;
+    font-family: "Inter";
+}
+
+.ant-statistic .ant-statistic-content {
+    font-size: 24px;
+    color: #000;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    line-height: normal;
+    font-family: "Inter";
+}
+
+.ant-card-bordered {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.ant-card .ant-card-body {
+    padding: 10px;
+}
+
+.ant-card .ant-card-head {
+    font-family: "Inter";
+    padding: 0 12px;
+}
+
+.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-title {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Inter";
+    letter-spacing: -0.1px;
+    line-height: normal;
+    color: #000;
+}
+
+.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-description {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter";
+    letter-spacing: -0.1px;
+    line-height: normal;
+    color: #979797;
+}
+
+.ant-tag.ant-tag-has-color {
+    font-family: "Inter";
+}
+
+.patients-card .patient-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.patients-card .patient-info {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.patients-card .patient-count {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Inter";
+    letter-spacing: -0.1px;
+    line-height: normal;
+    color: #000;
+}
+
+.patients-card .patient-type {
+    color: #8c8c8c;
+    font-family: "Inter";
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.patients-card .growth-tag {
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    padding: 2px 8px;
+    font-family: "Inter";
+}
+
+.gender-card .ant-card-extra {
+    font-size: 14px;
+    font-family: "Inter";
+}
+
+.gender-legend {
+    margin-top: 17px;
+}
+
+.gender-legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.gender-color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 12px;
+    margin-right: 10px;
+}
+
+.gender-label {
+    flex-grow: 1;
+    font-weight: 500;
+    font-family: "Inter";
+    color: #000;
+}
+
+.gender-percentage {
+    font-weight: 500;
+    font-family: "Inter";
+}
+
 /* Responsive adjustments */
 @media (max-width: 992px) {
     .dashboard .ant-col {

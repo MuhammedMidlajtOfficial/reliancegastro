@@ -15,7 +15,7 @@ const Protect = ({ Component }) => {
                 }
             });
             if (response.status === 200) {
-                navigate('/dashboard')
+                navigate('/overview')
             }
         } catch (error) {
             navigate('/')
