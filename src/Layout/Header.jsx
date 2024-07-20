@@ -66,21 +66,6 @@ const Header = () => {
             
 
             <div className="d-flex align-items-center gap-2">
-              <div className="user-info">
-                <span
-                  style={{
-                    color: "#00963f",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  {infoUsers ? `${infoUsers.firstName} ${infoUsers.lastName}` : "Guest User"}
-                </span>
-                <br />
-                <span className="xl-2">{infoUsers ? infoUsers.role : "Guest"}</span>
-              </div>
-
               <button
                 className="user-image"
                 type="button"
@@ -97,6 +82,21 @@ const Header = () => {
                   alt={infoUsers ? `${infoUsers.firstName} ${infoUsers.lastName}` : "Guest User"} 
                 />
               </button>
+
+              <div className="user-info">
+                <span
+                  style={{
+                    color: "#00963f",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  {infoUsers ? `${infoUsers.firstName} ${infoUsers.lastName}` : "Guest User"}
+                </span>
+                <br />
+                <span className="xl-2">{infoUsers ? infoUsers.role : "Guest"}</span>
+              </div>
 
               {isDropdownOpen && (
                 <div
