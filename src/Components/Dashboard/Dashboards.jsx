@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Card, Statistic, Table, List, Avatar, Tag, Calenda, DatePicker, Calendar } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Statistic, Table, List, Avatar, Tag, DatePicker, Calendar, Spin } from 'antd';
 import { UserOutlined, VideoCameraOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -8,7 +8,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const Dashboards = () => {
   const todaysAppointments = [];
-  const recentPatients = [];
+  const [loading, setLoading] = useState(true);
+  const [recentPatients, setRecentPatients] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+    total: 0,
+  });
 
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -116,6 +122,149 @@ const Dashboards = () => {
       },
     },
   };
+
+
+  useEffect(() => {
+    // Simulate an API call
+    setTimeout(() => {
+      const data = [
+        {
+          key: '1',
+          name: 'Annette Black',
+          id: '8013',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Male',
+          status: 'In- Process',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+        {
+          key: '2',
+          name: 'Guy Hawkins',
+          id: '5626',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Female',
+          status: 'In- Process',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+        {
+          key: '3',
+          name: 'Kristin Watson',
+          id: '6690',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Male',
+          status: 'Close',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+        {
+          key: '4',
+          name: 'Cameron',
+          id: '1784',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Children',
+          status: 'In- Process',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+        {
+          key: '5',
+          name: 'Devon Lane',
+          id: '5560',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Female',
+          status: 'In- Process',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+        {
+          key: '6',
+          name: 'Dianne Russell',
+          id: '4600',
+          phone: '987654321',
+          date: '09/12/2024',
+          gender: 'Male',
+          status: 'Close',
+          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
+        },
+      ];
+      setRecentPatients(data);
+      setPagination({
+        ...pagination,
+        total: data.length,
+      });
+      setLoading(false);
+    }, 2000); // Simulate a 2-second delay
+  }, []);
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    setPagination(pagination);
+    // Handle sorting here
+    const sortedData = [...recentPatients].sort((a, b) => {
+      if (sorter.order === 'ascend') {
+        return a[sorter.field] > b[sorter.field] ? 1 : -1;
+      } else if (sorter.order === 'descend') {
+        return a[sorter.field] < b[sorter.field] ? 1 : -1;
+      }
+      return 0;
+    });
+    setRecentPatients(sortedData);
+  };
+
+  const columns = [
+    {
+      title: 'Patient Name',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (text, record) => (
+        <div className="patient-name">
+          <img
+            src={record.avatar}
+            alt="avatar"
+            className="patient-avatar"
+          />
+          <span>{text}</span>
+        </div>
+      ),
+    },
+    {
+      title: 'Patient ID',
+      dataIndex: 'id',
+      key: 'id',
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: 'Phone No',
+      dataIndex: 'phone',
+      key: 'phone',
+      sorter: (a, b) => a.phone.localeCompare(b.phone),
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+    },
+    {
+      title: 'Gender',
+      dataIndex: 'gender',
+      key: 'gender',
+      sorter: (a, b) => a.gender.localeCompare(b.gender),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      sorter: (a, b) => a.status.localeCompare(b.status),
+      render: (status) => (
+        <Tag color={status === 'In- Process' ? 'green' : 'red'}>
+          {status}
+        </Tag>
+      ),
+    },
+  ];
 
 
   return (
@@ -285,25 +434,16 @@ const Dashboards = () => {
 
       <div className="row">
         <div className="col-12">
-          <Card title="Recent Patient's">
-            <Table dataSource={recentPatients} columns={[
-              { title: 'Patient Name', dataIndex: 'name', key: 'name' },
-              { title: 'Patient ID', dataIndex: 'id', key: 'id' },
-              { title: 'Phone No', dataIndex: 'phone', key: 'phone' },
-              { title: 'Date', dataIndex: 'date', key: 'date' },
-              { title: 'Gender', dataIndex: 'gender', key: 'gender' },
-              {
-                title: 'Status',
-                dataIndex: 'status',
-                key: 'status',
-                render: status => (
-                  <Tag color={status === 'In- Process' ? 'green' : 'red'}>
-                    {status}
-                  </Tag>
-                )
-              },
-            ]} />
-          </Card>
+          <Spin spinning={loading}>
+            <Card title="Recent Patient's">
+              <Table
+                dataSource={recentPatients}
+                columns={columns}
+                pagination={pagination}
+                onChange={handleTableChange}
+              />
+            </Card>
+          </Spin>
         </div>
       </div>
     </div>

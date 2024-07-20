@@ -394,6 +394,7 @@ input:checked+.slider .sun-icon {
 
 .sidebar-icon {
     color: #00963f;
+    margin-right: 8px;
 }
 
 .active-nav-links {
