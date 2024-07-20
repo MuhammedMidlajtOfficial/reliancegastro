@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./auth.css";
 import logo from "../Assets/Logo/logo.svg";
+import login1 from "../Assets/Imgs/SignIn/login-1.png";
+import login2 from "../Assets/Imgs/SignIn/login-2.png";
+import login3 from "../Assets/Imgs/SignIn/login-3.png";
+import login4 from "../Assets/Imgs/SignIn/login-4.png";
+import login5 from "../Assets/Imgs/SignIn/login-5.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { message, Spin } from "antd";
+import { message, Spin, Carousel } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import Instance from "../AxiosConfig";
+
+const CustomDot = ({ active }) => (
+    <span className={`dot ${active ? 'active' : ''}`}></span>
+);
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
@@ -15,6 +24,29 @@ const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const navigate = useNavigate();
+
+    const sliderItems = [
+        {
+            image: login1,
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        },
+        {
+            image: login2,
+            text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        {
+            image: login3,
+            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        },
+        {
+            image: login4,
+            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        },
+        {
+            image: login5,
+            text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        },
+    ];
 
     const checkToken = async () => {
         try {
@@ -87,10 +119,6 @@ const SignIn = () => {
         setShowPassword(!showPassword);
     };
 
-    const getpassword = (e) => {
-        setPassword(e.target.value);
-    };
-
     useEffect(() => {
         const rememberedEmail = localStorage.getItem('rememberedEmail');
         const rememberedPassword = localStorage.getItem('rememberedPassword');
@@ -106,8 +134,10 @@ const SignIn = () => {
         <>
             <div className="login-container">
                 <div className="login-form">
-                    <img src={logo} alt="Reliance Foundation Hospital" className="logo" />
-                    <p>Welcome to Institute of Gastro sciences</p>
+                    <center>
+                        <img src={logo} alt="Reliance Foundation Hospital" className="logo" />
+                    </center>
+                    <p className="login--p">Welcome to Institute of Gastro sciences</p>
                     <div className="form-group">
                         <label htmlFor="email">Email*</label>
                         <input
@@ -130,7 +160,7 @@ const SignIn = () => {
                             />
                             <button
                                 className="password-toggle"
-                                onClick={() => setShowPassword(!showPassword)}
+                                onClick={togglePasswordVisibility}
                             >
                                 {showPassword ? <FiEye /> : <FiEyeOff />}
                             </button>
@@ -144,16 +174,23 @@ const SignIn = () => {
                     </button>
                     <p className="terms">By Continuing you agree to Reliance Terms of Service and Privacy Policy</p>
                 </div>
-                <div className="login-image">
-                    <img src="/path-to-doctor-image.jpg" alt="Doctor" />
-                    <div className="image-overlay">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        <div className="dots">
-                            <span className="dot active"></span>
-                            <span className="dot"></span>
-                            <span className="dot"></span>
-                        </div>
-                    </div>
+                <div className="login-image" style={{ height: '100%' }}>
+                    <Carousel
+                        autoplay
+                        dots={{ className: 'custom-dots' }}
+                        customPaging={(i) => <CustomDot />}
+                        autoplaySpeed={2000}
+                        effect="fade"
+                    >
+                        {sliderItems.map((item, index) => (
+                            <div key={index}>
+                                <img src={item.image} alt={`Slide ${index + 1}`} />
+                                <div className="image-overlay">
+                                    <p>{item.text}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </Carousel>
                 </div>
             </div>
         </>
