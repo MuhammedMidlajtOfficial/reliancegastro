@@ -86,7 +86,7 @@ const SignUp = () => {
                     Create account
                 </button>
                 <p className="login-link">
-                    Already have an account? <Link to="/login">Log in</Link>
+                    Already have an account? <Link to="/">Sign In</Link>
                 </p>
                 <p className="terms">By Continuing you agree to Reliance. Terms of Service and Privacy Policy</p>
             </div>

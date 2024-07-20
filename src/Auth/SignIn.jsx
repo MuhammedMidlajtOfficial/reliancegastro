@@ -172,6 +172,9 @@ const SignIn = () => {
                     <button className="login-button" onClick={ReDirect}>
                         {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /> : 'Log In'}
                     </button>
+                    <p className="login-link">
+                        Do not have an account? <Link to="/sign-up">Sign Up</Link>
+                    </p>
                     <p className="terms">By Continuing you agree to Reliance Terms of Service and Privacy Policy</p>
                 </div>
                 <div className="login-image" style={{ height: '100%' }}>
