@@ -237,9 +237,116 @@
     margin-right: 10px;
 }
 
-.ant-tag.ant-tag-green, .ant-tag.ant-tag-red{
+.ant-tag.ant-tag-green,
+.ant-tag.ant-tag-red {
     font-size: 14px;
     font-weight: 500;
+    font-family: "Inter";
+}
+
+.appointment-card {
+    font-family: "Inter";
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    border: 1px solid #f0f0f0;
+}
+
+.appoint-head {
+    color: rgba(0, 0, 0, 0.88);
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 13px 0;
+}
+
+.date-section {
+    margin-bottom: 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date-section p {
+    margin: 0;
+    color: #666;
+}
+
+.date-section p:first-child {
+    font-size: 14px;
+}
+
+.date-section p:last-child {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.calendar-strip {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+}
+
+.day .number {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.day .weekday {
+    font-size: 12px;
+    color: #666;
+}
+
+.day.active {
+    background-color: #e6f7f2;
+    border-radius: 10px;
+}
+
+.day.active .number {
+    color: #00a86b;
+}
+
+.ant-list-item {
+    padding: 10px 0;
+}
+
+.ant-list-item-meta-avatar {
+    margin-right: 15px;
+}
+
+.ant-avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.ant-list-item-meta-title {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-family: "Inter";
+}
+
+.ant-list-item-meta-description {
+    font-size: 14px;
+    color: #666;
+    font-family: "Inter";
+}
+
+.ant-list-item-action {
+    font-size: 14px;
+    color: #333;
+    font-family: "Inter";
+}
+
+.ant-list *{
     font-family: "Inter";
 }
 

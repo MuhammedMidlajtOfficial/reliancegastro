@@ -3,6 +3,7 @@ import { Card, Statistic, Table, List, Avatar, Tag, DatePicker, Calendar, Spin }
 import { UserOutlined, VideoCameraOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import { FiCalendar } from 'react-icons/fi';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -412,15 +413,44 @@ const Dashboards = () => {
 
         </div>
         <div className="col-lg-4">
-          <Card title="Today's Appointment">
-            <Calendar fullscreen={false} />
+          <div className="appointment-card">
+            <h2 className='appoint-head'>Today's Appointment</h2>
+
+            <div className="date-section">
+              <div>
+              <p>July 18, 2024</p>
+              <p>Today</p>
+              </div>
+              <div>
+                <FiCalendar />
+              </div>
+            </div>
+
+            <div className="calendar-strip">
+              {['16', '17', '18', '19', '20', '21'].map((day, index) => (
+                <div key={index} className={day === '18' ? 'day active' : 'day'}>
+                  <span className="number">{day}</span>
+                  <span className="weekday">
+                    {['Tu', 'Wed', 'Th', 'Fr', 'Sa', 'Su'][index]}
+                  </span>
+                </div>
+              ))}
+            </div>
+
             <List
               itemLayout="horizontal"
-              dataSource={todaysAppointments}
+              dataSource={[
+                { name: 'Marvin McKinney', type: 'Hospital Consulting', time: 'On Going' },
+                { name: 'Bessie Cooper', type: 'Video Consulting', time: '1.30 PM' },
+                { name: 'Jacob Jones', type: 'Emergency', time: '11.00 PM' },
+                { name: 'Robert Fox', type: 'Hospital Consulting', time: '1.30 PM' },
+                { name: 'Guy Hawkins', type: 'Video Consulting', time: '3.00 PM' },
+                { name: 'Theresa Webb', type: 'Emergency', time: '5.30 PM' },
+              ]}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
+                    avatar={<Avatar src={`path/to/${item.name.toLowerCase().replace(' ', '_')}.jpg`} />}
                     title={item.name}
                     description={item.type}
                   />
@@ -428,7 +458,7 @@ const Dashboards = () => {
                 </List.Item>
               )}
             />
-          </Card>
+          </div>
         </div>
       </div>
 
