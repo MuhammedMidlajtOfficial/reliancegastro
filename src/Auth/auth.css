@@ -136,7 +136,7 @@ input {
 .ant-carousel .slick-dots li {
   display: inline-block;
   width: 40px;
-  height: 12px;
+  height: 8px;
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 1);
   margin: 0 5px;
