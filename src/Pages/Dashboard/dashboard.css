@@ -350,8 +350,9 @@
     font-family: "Inter";
 }
 
-[class^="ant-table"] [class^="ant-table"] {
+.ant-table-wrapper .ant-table{
     overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .total--patient {
