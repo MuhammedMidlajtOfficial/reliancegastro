@@ -85,16 +85,16 @@ function Sidebar() {
       name: "Messages",
       icon: <FiMessageSquare className="sidebar-icon" />,
       subMenu: [
-        { name: "Submenu 1", path: "/messages/submenu1", icon: <FiImage /> },
-        { name: "Submenu 2", path: "/messages/submenu2", icon: <FiImage /> },
+        { name: "Submenu 1", path: "/messages/submenu1", icon: <FiMessageSquare /> },
+        { name: "Submenu 2", path: "/messages/submenu2", icon: <FiMessageSquare /> },
       ],
     },
     {
       name: "Notification",
       icon: <FiBell className="sidebar-icon" />,
       subMenu: [
-        { name: "Submenu 1", path: "/notification/submenu1", icon: <FiHelpCircle /> },
-        { name: "Submenu 2", path: "/notification/submenu2", icon: <FiHelpCircle /> },
+        { name: "Submenu 1", path: "/notification/submenu1", icon: <FiBell /> },
+        { name: "Submenu 2", path: "/notification/submenu2", icon: <FiBell /> },
       ],
     },
     { name: "Setting", icon: <FiSettings className="sidebar-icon" />, path: "/setting" },
