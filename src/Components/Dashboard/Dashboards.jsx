@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Statistic, Table, List, Avatar, Tag, DatePicker, Calendar, Spin } from 'antd';
+import { Card, Statistic, Table, List, Avatar, Tag, DatePicker, Spin } from 'antd';
 import { UserOutlined, VideoCameraOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -8,7 +8,6 @@ import { FiCalendar } from 'react-icons/fi';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const Dashboards = () => {
-  const todaysAppointments = [];
   const [loading, setLoading] = useState(true);
   const [recentPatients, setRecentPatients] = useState([]);
   const [pagination, setPagination] = useState({
