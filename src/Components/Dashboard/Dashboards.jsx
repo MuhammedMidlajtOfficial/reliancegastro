@@ -272,8 +272,8 @@ const Dashboards = () => {
       <h1>Welcome, Dr. Navaneethan M</h1>
       <p>Have a nice day at great work</p>
 
-      <div className="row mb-4">
-        <div className="col-lg-4">
+      <div className="row">
+        <div className="col-lg-4 mb-4">
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-1">
@@ -283,7 +283,7 @@ const Dashboards = () => {
             </div>
           </Card>
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 mb-4">
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-2">
@@ -293,7 +293,7 @@ const Dashboards = () => {
             </div>
           </Card>
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 mb-4">
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-3">
@@ -309,11 +309,11 @@ const Dashboards = () => {
       <div className="row mb-4">
         <div className="col-12">
           <Card title="Total Patients">
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ width: '20%', marginRight: '20px' }}>
+            <div className='total--patient'>
+              <div className='radial--guage'>
                 <RadialGauge value={150.5} />
               </div>
-              <div style={{ width: '80%' }}>
+              <div className='total--patient-graph'>
                 <Bar options={options} data={data} />
               </div>
             </div>
@@ -321,8 +321,8 @@ const Dashboards = () => {
         </div>
       </div>
 
-      <div className="row mb-4">
-        <div className="col-lg-4">
+      <div className="row">
+        <div className="col-lg-4 mb-4">
           <Card title="Appointment Request's" className="appointment-requests-card">
             <List
               itemLayout="horizontal"
@@ -354,7 +354,7 @@ const Dashboards = () => {
           </Card>
         </div>
 
-        <div className="col-lg-4">
+        <div className="col-lg-4 mb-4">
           <div>
             <Card title="Patient's" className="patients-card">
               <div className="patient-item">
@@ -411,7 +411,7 @@ const Dashboards = () => {
           </div>
 
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 mb-4">
           <div className="appointment-card">
             <h2 className='appoint-head'>Today's Appointment</h2>
 

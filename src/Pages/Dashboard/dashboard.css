@@ -346,13 +346,43 @@
     font-family: "Inter";
 }
 
-.ant-list *{
+.ant-list * {
     font-family: "Inter";
+}
+
+[class^="ant-table"] [class^="ant-table"] {
+    overflow-x: scroll;
+}
+
+.total--patient {
+    display: flex;
+    align-items: center;
+}
+
+.radial--guage {
+    width: 20%;
+    margin-right: 20px;
+}
+
+.total--patient-graph {
+    width: 80%;
 }
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
     .dashboard .ant-col {
         margin-bottom: 20px;
+    }
+}
+
+@media (max-width:768Px) {
+    .total--patient {
+        display: block;
+    }
+
+    .radial--guage,
+    .total--patient-graph {
+        width: 100%;
+        margin: 20px 0;
     }
 }

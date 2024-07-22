@@ -289,11 +289,11 @@ input:checked+.slider .sun-icon {
     width: 240px;
     position: fixed;
     top: 0;
-    left: 0;
+    left: -240px;
     height: 100%;
     background-color: #fff;
     transition: left 0.3s ease;
-    z-index: 1000;
+    z-index: 1001;
     border-right: 1px solid #cbcbcb;
 }
 
@@ -302,9 +302,38 @@ input:checked+.slider .sun-icon {
 }
 
 .toggle-btn {
+    position: fixed;
+    top: 12px;
+    left: 10px;
+    z-index: 1001;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    background: #00963f;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+}
+
+.close-btn {
     position: absolute;
     top: 10px;
-    left: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    background: #00963f;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
 }
 
 .sidebar-content {
@@ -343,7 +372,7 @@ input:checked+.slider .sun-icon {
     cursor: pointer;
 }
 
-.main-menus{
+.main-menus {
     font-size: 16px;
     font-weight: 500;
     line-height: normal;
@@ -416,6 +445,32 @@ input:checked+.slider .sun-icon {
     background: #f9f7f7;
 }
 
-.ant-table-wrapper table{
+.ant-table-wrapper table {
     font-family: "Inter";
+}
+
+
+@media (min-width: 769px) {
+    .sidebar {
+        left: 0;
+    }
+
+    .toggle-btn,
+    .close-btn {
+        display: none;
+    }
+
+    .main-wrapper {
+        margin-left: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        margin-left: 0;
+    }
+
+    .navbar-header {
+        margin-left: 0;
+    }
 }

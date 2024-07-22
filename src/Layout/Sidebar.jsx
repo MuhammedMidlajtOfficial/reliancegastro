@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import { FiGrid, FiBriefcase, FiUsers, FiImage, FiHelpCircle, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare } from "react-icons/fi";
+import { FiGrid, FiBriefcase, FiUsers, FiImage, FiHelpCircle, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX } from "react-icons/fi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -15,6 +15,21 @@ function Sidebar() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsSidebarOpen(true);
+      } else {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleMenuClick = (menuName) => {
     setExpandedMenu(expandedMenu === menuName ? null : menuName);
@@ -113,32 +128,36 @@ function Sidebar() {
   );
 
   return (
-    <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-      <button className="toggle-btn d-block d-sm-none" onClick={toggleSidebar}>
-        <span className="visually-hidden">Toggle sidebar</span>
-        <span className="navbar-toggler-icon" />
+    <>
+      <button className="toggle-btn d-md-none" onClick={toggleSidebar}>
+        <FiMenu />
       </button>
-      <aside className="sidebar-content">
-        <div className="sidebar-header">
-          <img src={logo} alt="logo" />
-        </div>
-        <nav className="sidebar-nav">
-          {renderMenu(menuItems.filter(item => item.subMenu))}
-          <ul>
-            {menuItems.filter(item => !item.subMenu).map((item, index) => (
-              <li key={index}>
-                <div
-                  className="nav-link py-2 rounded-xl mb-2 d-flex justify-content-between align-items-center"
-                  onClick={item.action ? item.action : () => navigate(item.path)}
-                >
-                  <span className="main-menus">{item.icon} {item.name}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-    </div>
+      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+        <button className="close-btn d-md-none" onClick={toggleSidebar}>
+          <FiX />
+        </button>
+        <aside className="sidebar-content">
+          <div className="sidebar-header">
+            <img src={logo} alt="logo" />
+          </div>
+          <nav className="sidebar-nav">
+            {renderMenu(menuItems.filter(item => item.subMenu))}
+            <ul>
+              {menuItems.filter(item => !item.subMenu).map((item, index) => (
+                <li key={index}>
+                  <div
+                    className="nav-link py-2 rounded-xl mb-2 d-flex justify-content-between align-items-center"
+                    onClick={item.action ? item.action : () => navigate(item.path)}
+                  >
+                    <span className="main-menus">{item.icon} {item.name}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      </div>
+    </>
   );
 }
 
