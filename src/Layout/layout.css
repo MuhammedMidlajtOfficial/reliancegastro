@@ -311,10 +311,6 @@ input:checked+.slider .sun-icon {
     padding: 10px 16px;
 }
 
-.sidebar-header {
-    text-align: center;
-}
-
 .sidebar-header img {
     width: 140px;
     padding: 0 0 20px 0;
