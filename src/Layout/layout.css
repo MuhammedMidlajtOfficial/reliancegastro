@@ -187,7 +187,6 @@ input:checked+.slider .sun-icon {
 .dropdown-menu {
     position: absolute;
     top: calc(85%);
-    right: 8%;
     background: #00963f;
     border-radius: 4px;
     z-index: 999;
@@ -202,7 +201,7 @@ input:checked+.slider .sun-icon {
     content: "";
     position: absolute;
     top: -8px;
-    left: 8px;
+    left: 18px;
     border-width: 0 8px 8px 8px;
     border-style: solid;
     border-color: transparent transparent #00963f transparent;
