@@ -8,7 +8,18 @@ const Header = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const infoUsers = JSON.parse(localStorage.getItem("loginUserData"));
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUserInfo = localStorage.getItem("userInfo");
+    
+    if (token && storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleNotificationClick = () => {
     navigate('/notification');
@@ -20,7 +31,6 @@ const Header = () => {
 
   const handleSignOut = () => {
     Swal.fire({
-    //   imageUrl: logoutimg,
       title: "Are you sure",
       text: "You want to Logout?",
       showCancelButton: true,
@@ -29,10 +39,11 @@ const Header = () => {
       confirmButtonText: "Yes, logout me!"
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem("token")
-        navigate("/")
+        localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
+        navigate("/");
       }
-    })
+    });
   };
 
   useEffect(() => {
@@ -47,6 +58,10 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  if (!userInfo) {
+    return null;
+  }
 
   return (
     <div style={{position:"sticky", top:"0", zIndex:"999"}}>
@@ -64,7 +79,6 @@ const Header = () => {
               <span className="notification-badge"></span>
             </button>
             
-
             <div className="d-flex align-items-center gap-2">
               <button
                 className="user-image"
@@ -75,11 +89,8 @@ const Header = () => {
               >
                 <img 
                   className="profile--icon" 
-                  src={infoUsers 
-                    ? `https://ui-avatars.com/api/?name=${`${infoUsers.firstName} ${infoUsers.lastName}`.replace(/ /g, '+')}`
-                    : `https://ui-avatars.com/api/?name=Guest+User`
-                  } 
-                  alt={infoUsers ? `${infoUsers.firstName} ${infoUsers.lastName}` : "Guest User"} 
+                  src={`https://ui-avatars.com/api/?name=${userInfo.name.replace(/ /g, '+')}`}
+                  alt={userInfo.name} 
                 />
               </button>
 
@@ -92,10 +103,10 @@ const Header = () => {
                     letterSpacing: "0.5px",
                   }}
                 >
-                  {infoUsers ? `${infoUsers.firstName} ${infoUsers.lastName}` : "Guest User"}
+                  {userInfo.name}
                 </span>
                 <br />
-                <span className="xl-2">{infoUsers ? infoUsers.role : "Guest"}</span>
+                <span className="xl-2">{userInfo.email}</span>
               </div>
 
               {isDropdownOpen && (

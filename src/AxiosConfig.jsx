@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Instance = axios.create({
-  baseURL: "https://bilkins-cms.onrender.com/",
+  baseURL: "https://relience-server.azurewebsites.net/api/",
 });
 
 export default Instance;

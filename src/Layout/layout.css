@@ -187,7 +187,7 @@ input:checked+.slider .sun-icon {
 .dropdown-menu {
     position: absolute;
     top: calc(85%);
-    right: 30px;
+    right: 8%;
     background: #00963f;
     border-radius: 4px;
     z-index: 999;

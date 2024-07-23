@@ -129,7 +129,7 @@ input {
   font-family: "Inter";
 }
 
-.ant-carousel .slick-dots-bottom{
+.ant-carousel .slick-dots-bottom {
   bottom: 20px;
 }
 
@@ -184,7 +184,7 @@ input {
   letter-spacing: 0.1px;
 }
 
-.password-hint{
+.password-hint {
   color: #667085;
   font-size: 14px;
   font-weight: 500;
@@ -192,7 +192,7 @@ input {
   margin-top: 4px;
 }
 
-.login-link{
+.login-link {
   color: #667085;
   text-align: center;
   margin-top: 20px;
@@ -201,7 +201,7 @@ input {
   letter-spacing: -0.1px;
 }
 
-.login-link a{
+.login-link a {
   color: #00963f;
   font-size: 14px;
   font-weight: 600;
@@ -238,29 +238,29 @@ input {
   object-fit: cover;
 }
 
+
+
+/* ============================================================================================ */
+/* ============================================================================================ */
+/* ============================================================================================ */
+/* ============================================================================================ */
+
+
 @media (max-width: 768px) {
   .signup-container {
-      flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
   }
 
   .signup-form {
-      max-width: 100%;
+    max-width: 100%;
   }
 
   .signup-image {
-      display: none;
+    display: none;
   }
-}
 
-
-
-/* ============================================================================================ */
-/* ============================================================================================ */
-/* ============================================================================================ */
-/* ============================================================================================ */
-
-@media (max-width:768px){
-  .login-form{
+  .login-form {
     flex: unset;
   }
 }

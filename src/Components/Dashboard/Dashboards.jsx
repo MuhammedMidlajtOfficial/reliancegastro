@@ -16,7 +16,9 @@ const Dashboards = () => {
     total: 0,
   });
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [setSelectedDate] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+
 
   const onChange = (date, dateString) => {
     setSelectedDate(dateString);
@@ -125,7 +127,6 @@ const Dashboards = () => {
 
 
   useEffect(() => {
-    // Simulate an API call
     setTimeout(() => {
       const data = [
         {
@@ -195,12 +196,22 @@ const Dashboards = () => {
         total: data.length,
       });
       setLoading(false);
-    }, 2000); // Simulate a 2-second delay
+    }, 2000);
+
+    const userInfoFromLocalStorage = localStorage.getItem('userInfo');
+    if (userInfoFromLocalStorage) {
+      setUserInfo(JSON.parse(userInfoFromLocalStorage));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!userInfo) {
+    return null;
+  }
 
   const handleTableChange = (pagination, filters, sorter) => {
     setPagination(pagination);
-    // Handle sorting here
+
     const sortedData = [...recentPatients].sort((a, b) => {
       if (sorter.order === 'ascend') {
         return a[sorter.field] > b[sorter.field] ? 1 : -1;
@@ -269,7 +280,7 @@ const Dashboards = () => {
 
   return (
     <div className="dashboard">
-      <h1>Welcome, Dr. Navaneethan M</h1>
+      <h1>Welcome, {userInfo.name}</h1>
       <p>Have a nice day at great work</p>
 
       <div className="row">
@@ -417,8 +428,8 @@ const Dashboards = () => {
 
             <div className="date-section">
               <div>
-              <p>July 18, 2024</p>
-              <p>Today</p>
+                <p>July 18, 2024</p>
+                <p>Today</p>
               </div>
               <div>
                 <FiCalendar />

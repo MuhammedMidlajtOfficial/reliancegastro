@@ -10,7 +10,6 @@ function Sidebar() {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(null);
-  const userInfo = JSON.parse(localStorage.getItem('loginUserData'));
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
