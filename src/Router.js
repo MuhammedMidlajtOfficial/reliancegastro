@@ -6,6 +6,8 @@ import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
 import ResetPassword from "./Auth/ResetPassword";
 import Dashboard from "./Pages/Dashboard/Index";
+import Patient from "./Pages/Patients/index";
+import New from "./Pages/News";
 
 const Router = () => {
   return (
@@ -20,6 +22,10 @@ const Router = () => {
             path="/overview"
             element={<Protect Component={Dashboard} />}
           />
+          <Route path="/patients"
+          element={<Protect Component={Patient} />}/>
+          <Route path="/news"
+          element={<Protect Component={New} />}/>
         </Routes>
       </BrowserRouter>
     </>
