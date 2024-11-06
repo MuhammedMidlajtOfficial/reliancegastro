@@ -62,6 +62,7 @@ function Sidebar() {
         { name: "User Accounts", path: "/user-accounts", icon: <FiUserPlus /> },
         { name: "User Logs", path: "/user-logs", icon: <FiUserX /> },
         { name: "Recent Activities", path: "/recent-activities", icon: <FiActivity /> },
+        { name: "Helth Packag", path: "/Helth-Package", icon: <FiActivity /> },
       ],
     },
     {
