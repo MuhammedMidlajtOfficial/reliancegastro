@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import { FiGrid, FiBriefcase, FiUsers, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle} from "react-icons/fi";
+import { FiGrid, FiBriefcase, FiUsers, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle, FiTrello } from "react-icons/fi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -82,14 +82,28 @@ function Sidebar() {
       // ],
     },
     {
-      name:"News",
-      icon: <FiFileText className="sidebar-icon" />,
-      path:"/news"
+      name:"Health Package",
+      icon: <FiActivity className="sidebar-icon" />,
+      subMenu: [
+        { name: "List", path: "/healthList", icon: < FiFileText/> },
+        { name: "Create", path: "/health", icon: < FiPlusCircle/> },
+      ]
     },
     {
-      name:"Health Package",
-      icon: <FiPlusCircle className="sidebar-icon" />,
-      path:"/health"
+      name:"News",
+      icon: <FiTrello className="sidebar-icon" />,
+      subMenu: [
+        { name: "List", path: "/newsList", icon: < FiFileText/> },
+        { name: "Create", path: "/news", icon: < FiPlusCircle/> },
+      ]
+    },
+    {
+      name:"Blog",
+      icon: <FiFileText className="sidebar-icon" />,
+      subMenu: [
+        { name: "List", path: "/blogList", icon: < FiFileText/> },
+        { name: "Create", path: "/blog", icon: < FiPlusCircle/> },
+      ]
     },
     {
       name: "Messages",
