@@ -8,6 +8,7 @@ import ResetPassword from "./Auth/ResetPassword";
 import Dashboard from "./Pages/Dashboard/Index";
 import Patient from "./Pages/Patients/index";
 import New from "./Pages/News";
+import Health from "./Pages/HealthPackage";
 
 const Router = () => {
   return (
@@ -26,6 +27,8 @@ const Router = () => {
           element={<Protect Component={Patient} />}/>
           <Route path="/news"
           element={<Protect Component={New} />}/>
+          <Route path="/health"
+          element={<Protect Component={Health} />}/>
         </Routes>
       </BrowserRouter>
     </>

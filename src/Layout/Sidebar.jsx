@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import { FiGrid, FiBriefcase, FiUsers, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText} from "react-icons/fi";
+import { FiGrid, FiBriefcase, FiUsers, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle} from "react-icons/fi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -62,7 +62,6 @@ function Sidebar() {
         { name: "User Accounts", path: "/user-accounts", icon: <FiUserPlus /> },
         { name: "User Logs", path: "/user-logs", icon: <FiUserX /> },
         { name: "Recent Activities", path: "/recent-activities", icon: <FiActivity /> },
-        { name: "Helth Packag", path: "/Helth-Package", icon: <FiActivity /> },
       ],
     },
     {
@@ -87,7 +86,11 @@ function Sidebar() {
       icon: <FiFileText className="sidebar-icon" />,
       path:"/news"
     },
-    
+    {
+      name:"Health Package",
+      icon: <FiPlusCircle className="sidebar-icon" />,
+      path:"/health"
+    },
     {
       name: "Messages",
       icon: <FiMessageSquare className="sidebar-icon" />,

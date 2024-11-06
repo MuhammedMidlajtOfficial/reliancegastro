@@ -1,11 +1,6 @@
-import React from 'react'
 import React, { useState } from 'react';
   import axios from 'axios';
 
-function CreateHealthPackage() {
-
-  
-  
   const HealthCheckupForm = () => {
     const [formData, setFormData] = useState({
       packageName: '',
@@ -99,6 +94,4 @@ function CreateHealthPackage() {
   )
 }
 
-}
-
-export default CreateHealthPackage
+export default HealthCheckupForm

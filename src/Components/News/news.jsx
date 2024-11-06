@@ -5,7 +5,7 @@ const News = () => {
         heading: '',
         subheading: '',
         backgroundColor: '',
-        backgroundImage: '', 
+        backgroundImage: '',
         about: '',
         content: ['']
     };
@@ -62,21 +62,26 @@ const News = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
+        const dataToSubmit = {
+            ...formData,
+        };
+
         try {
-            const response = await fetch('https://relience-test-backend.onrender.com/api/v1/cards', {
+            const response = await fetch('http://localhost:5000/api/v1/cards', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(dataToSubmit)
             });
-            
+
             if (response.ok) {
                 console.log("Form submitted successfully");
                 clearForm();
             } else {
-                console.error("Failed to submit form");
+                const errorData = await response.json();
+                console.error("Failed to submit form:", errorData);
             }
         } catch (error) {
             console.error("Error submitting form:", error);
@@ -130,7 +135,7 @@ const News = () => {
                     <input
                         type="file"
                         name="backgroundImage"
-                        onChange={handleImageChange} // Convert image to base64
+                        onChange={handleImageChange}
                         className="form-input"
                     />
                 </div>
