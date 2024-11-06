@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
   import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
   const HealthCheckupForm = () => {
+
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
       packageName: '',
       price: '',
@@ -31,7 +34,9 @@ import React, { useState } from 'react';
       };
   
       try {
-        const response = await axios.post('/api/health-checkups', data); // Update endpoint as needed
+        console.log(data);
+        
+        const response = await axios.post('https://relience-test-backend.onrender.com/api/v1/package/health-checkups', data); // Update endpoint as needed
         console.log('Health Checkup Plan submitted successfully:', response.data);
         alert('Health Checkup Plan submitted successfully');
       } catch (error) {
