@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../../../Layout/Sidebar";
 import Header from "../../../Layout/Header";
+import "./Health.css"
 import HealthCheckupForm from "../../../Components/HealthPackage/CreateHealthPackage";
 
 const Health = () => {
