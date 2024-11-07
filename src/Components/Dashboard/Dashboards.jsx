@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Statistic, Table, List, Avatar, Tag, DatePicker, Spin } from 'antd';
-import { UserOutlined, VideoCameraOutlined, CalendarOutlined } from '@ant-design/icons';
+import { UserOutlined, CalendarOutlined, BoldOutlined } from '@ant-design/icons';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { FiCalendar } from 'react-icons/fi';
+import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -15,10 +16,13 @@ const Dashboards = () => {
     pageSize: 5,
     total: 0,
   });
-
+  
   const [setSelectedDate] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-
+  
+  const [patientsCount, setPatientsCount] = useState('');
+  const [newsCount, setNewsCount] = useState('');
+  const [blogsCount, setBlogsCount] = useState('');
 
   const onChange = (date, dateString) => {
     setSelectedDate(dateString);
@@ -125,6 +129,57 @@ const Dashboards = () => {
     },
   };
 
+  // fetching data
+  const fetchPatients = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/patientsCount`);
+      if(response){
+        console.log('totalUsersCount--',response.data.totalUsersCount);
+        setPatientsCount(response.data.totalUsersCount)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("There was an error fetching the patient data. Please try again.");
+    }
+  };
+  const fetchNews = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/newsCount`);
+      if(response){
+        console.log('totalNewsCount--',response.data.totalNewsCount);
+        setNewsCount(response.data.totalNewsCount)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("There was an error fetching the patient data. Please try again.");
+    }
+  };
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/blogsCount`);
+      if(response){
+        console.log('totalNewsCount--',response.data.totalNewsCount);
+        setBlogsCount(response.data.totalBlogsCount)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("There was an error fetching the patient data. Please try again.");
+    }
+  };
+
+  function formatCount(count) {
+    if (count >= 10000000) {  // 1 crore (10 million)
+      return (count / 10000000).toFixed(1) + 'Cr';
+    } else if (count >= 100000) {  // 1 lakh (100 thousand)
+      return (count / 100000).toFixed(1) + 'L';
+    } else if (count >= 1000) {
+      return (count / 1000).toFixed(1) + 'k';
+    } else {
+      return count;
+    }
+  }
+  
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -203,6 +258,10 @@ const Dashboards = () => {
       setUserInfo(JSON.parse(userInfoFromLocalStorage));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    fetchPatients()
+    fetchNews()
+    fetchBlogs()
   }, []);
 
   if (!userInfo) {
@@ -290,7 +349,10 @@ const Dashboards = () => {
               <div className="statistics-icons-1">
                 <CalendarOutlined />
               </div>
-              <Statistic value={25.2} title="Appointments" suffix="k" />
+              <Statistic 
+                title="Total News"
+                value={formatCount(newsCount)} 
+              />
             </div>
           </Card>
         </div>
@@ -300,7 +362,10 @@ const Dashboards = () => {
               <div className="statistics-icons-2">
                 <UserOutlined />
               </div>
-              <Statistic title="Total Patients" value={150.5} suffix="k" />
+              <Statistic 
+                title="Total Patients" 
+                value={formatCount(patientsCount)} 
+              />
             </div>
           </Card>
         </div>
@@ -308,9 +373,12 @@ const Dashboards = () => {
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-3">
-                <VideoCameraOutlined />
+              <BoldOutlined />
               </div>
-              <Statistic title="Total Video Consulting" value={50.4} suffix="k" />
+              <Statistic 
+                title="Total Blogs" 
+                value={formatCount(blogsCount)} 
+              />
             </div>
           </Card>
         </div>
@@ -322,7 +390,7 @@ const Dashboards = () => {
           <Card title="Total Patients">
             <div className='total--patient'>
               <div className='radial--guage'>
-                <RadialGauge value={150.5} />
+                <RadialGauge value={formatCount(patientsCount)} />
               </div>
               <div className='total--patient-graph'>
                 <Bar options={options} data={data} />
@@ -535,7 +603,7 @@ const RadialGauge = ({ value }) => {
           textAlign: 'center',
         }}
       >
-        <div style={{ fontSize: '24px', fontWeight: '600', fontFamily: "Inter" }}>{value}k</div>
+        <div style={{ fontSize: '24px', fontWeight: '600', fontFamily: "Inter" }}>{value}</div>
         <div style={{ fontSize: '14px', fontFamily: "Inter" }}>Total Patients</div>
       </div>
     </div>
