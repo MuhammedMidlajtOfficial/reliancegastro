@@ -1,0 +1,35 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+td{
+    text-align: center;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
