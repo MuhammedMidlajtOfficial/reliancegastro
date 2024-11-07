@@ -132,7 +132,7 @@ const Dashboards = () => {
   // fetching data
   const fetchPatients = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/patientsCount`);
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/patientsCount`);
       if(response){
         console.log('totalUsersCount--',response.data.totalUsersCount);
         setPatientsCount(response.data.totalUsersCount)
@@ -144,7 +144,7 @@ const Dashboards = () => {
   };
   const fetchNews = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/newsCount`);
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/newsCount`);
       if(response){
         console.log('totalNewsCount--',response.data.totalNewsCount);
         setNewsCount(response.data.totalNewsCount)
@@ -156,7 +156,7 @@ const Dashboards = () => {
   };
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:3000/api/v1/dashboard/blogsCount`);
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/blogsCount`);
       if(response){
         console.log('totalNewsCount--',response.data.totalNewsCount);
         setBlogsCount(response.data.totalBlogsCount)
