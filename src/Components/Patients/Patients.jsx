@@ -30,7 +30,7 @@ const Patients = () => {
 
   const fetchPatients = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/allUser`, {
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/allUser`, {
         params: { page: page, limit: itemsPerPage },
       });
       setPatients(response.data.allUser || []);

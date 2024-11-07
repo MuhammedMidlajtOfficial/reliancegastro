@@ -1,0 +1,126 @@
+.custom-modal {
+    width: 75%;
+    max-height: 90vh;
+    margin: auto; 
+    padding-left: 70px;
+    padding-top: 80px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Enable vertical scroll if needed */
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-modal h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.custom-modal label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.custom-modal input,
+.custom-modal textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.custom-modal input:focus,
+.custom-modal textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.custom-modal textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.custom-modal button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.custom-modal button:hover {
+    background-color: #0056b3;
+}
+
+.custom-modal button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.custom-modal button + button {
+    background-color: #f44336; /* Red color for Cancel button */
+    margin-left: 10px;
+}
+
+.custom-modal button + button:hover {
+    background-color: #d32f2f;
+}
+
+.custom-modal .ReactModal__Content {
+    padding: 0; /* Remove default padding */
+}
+
+.custom-modal .content-point-container {
+    margin-bottom: 10px;
+}
+
+.custom-modal .content-point-container input {
+    width: calc(100% - 70px);
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.custom-modal .content-point-container button {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-top: 10px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.custom-modal .content-point-container button:hover {
+    background-color: #e64a19;
+}
+
+.custom-modal .content-point-container button:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+}
+
+.custom-modal .ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

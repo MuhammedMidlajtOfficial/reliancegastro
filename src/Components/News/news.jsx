@@ -68,7 +68,7 @@ const News = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/v1/cards', {
+            const response = await fetch('https://relience-test-backend.onrender.com/api/v1/cards', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,6 +77,7 @@ const News = () => {
             });
 
             if (response.ok) {
+                alert("News Created successfully!");
                 console.log("Form submitted successfully");
                 clearForm();
             } else {
