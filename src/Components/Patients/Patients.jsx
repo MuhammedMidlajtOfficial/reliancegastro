@@ -8,6 +8,8 @@ const Patients = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRows, setTotalRows] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingPatient, setEditingPatient] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const itemsPerPage = 10;
 
   const columns = [
@@ -46,7 +48,6 @@ const Patients = () => {
     fetchPatients(currentPage);
   }, [currentPage]);
 
-  // Filter the data based on the search term
   useEffect(() => {
     const filteredData = patients.filter((patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -62,12 +63,34 @@ const Patients = () => {
 
   // Edit function
   const handleEdit = (patient) => {
-    console.log("Edit patient:", patient);
+    setEditingPatient(patient);
+    setShowEditModal(true);
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      await axios.patch(`https://relience-test-backend.onrender.com/api/v1/editProfileFromAdmin/${editingPatient._id}`, editingPatient);
+      alert("Patient updated successfully");
+      setShowEditModal(false);
+      fetchPatients(currentPage);
+    } catch (error) {
+      console.error("Error updating patient:", error);
+      alert("Failed to update patient");
+    }
   };
 
   // Delete function
   const handleDelete = async (id) => {
-    console.log("Delete patient :", id);
+    if (window.confirm("Are you sure you want to delete this patient?")) {
+      try {
+        await axios.delete(`https://relience-test-backend.onrender.com/api/v1/deleteUser/${id}`);
+        alert("Patient deleted successfully");
+        fetchPatients(currentPage);
+      } catch (error) {
+        console.error("Error deleting patient:", error);
+        alert("Failed to delete patient");
+      }
+    }
   };
 
   return (
@@ -92,6 +115,60 @@ const Patients = () => {
         paginationPerPage={itemsPerPage}
         onChangePage={handlePageChange}
       />
+
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Edit Patient</h3>
+            <label>
+              Name:
+              <input
+                type="text"
+                value={editingPatient.name}
+                onChange={(e) => setEditingPatient({ ...editingPatient, name: e.target.value })}
+              />
+            </label>
+            <label>
+              Mobile No:
+              <input
+                type="text"
+                value={editingPatient.phoneNumber}
+                onChange={(e) => setEditingPatient({ ...editingPatient, phoneNumber: e.target.value })}
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                value={editingPatient.email}
+                onChange={(e) => setEditingPatient({ ...editingPatient, email: e.target.value })}
+              />
+            </label>
+            <label>
+              Date of Birth:
+              <input
+                type="date"
+                value={editingPatient.DOB}
+                onChange={(e) => setEditingPatient({ ...editingPatient, DOB: e.target.value })}
+              />
+            </label>
+            <label>
+              Gender:
+              <select
+                value={editingPatient.gender}
+                onChange={(e) => setEditingPatient({ ...editingPatient, gender: e.target.value })}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <button onClick={handleEditSubmit}>Save</button>
+            <button onClick={() => setShowEditModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
