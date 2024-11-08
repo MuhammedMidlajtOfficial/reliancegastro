@@ -68,8 +68,8 @@ function Sidebar() {
       name: "Appointments",
       icon: <FiBriefcase className="sidebar-icon" />,
       subMenu: [
-        { name: "Submenu 1", path: "/appointments/submenu1", icon: <FiBriefcase /> },
-        { name: "Submenu 2", path: "/appointments/submenu2", icon: <FiBriefcase /> },
+        { name: "Submenu 1", path: "/appointments", icon: <FiBriefcase /> },
+        { name: "Submenu 2", path: "/appointments", icon: <FiBriefcase /> },
       ],
     },
     {

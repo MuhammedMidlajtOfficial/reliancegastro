@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../../../Layout/Sidebar";
 import Header from "../../../Layout/Header";
 import BlogList from "../../../Components/Blog/BlogList";
+import "./blog.css";
 
 const BlogLists = () => {
   return (

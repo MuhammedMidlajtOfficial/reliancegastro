@@ -73,8 +73,12 @@ label {
     transition: background-color 0.3s;
 }
 
+.clear-button{
+    background-color: #acacac;
+}
+
 .add-button {
-    background-color: #3b82f6;
+    background-color: #2a6edb;
 }
 
 .remove-button {
@@ -88,7 +92,8 @@ label {
 }
 
 .submit-button {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 18px;
     padding: 12px;
 }

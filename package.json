@@ -29,8 +29,9 @@
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.6",
     "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.14.5",
+    "sweetalert2-react-content": "^5.0.7",
     "stream-http": "^3.2.0",
-    "sweetalert2": "^11.12.3",
     "url": "^0.11.4",
     "web-vitals": "^2.1.4"
   },
