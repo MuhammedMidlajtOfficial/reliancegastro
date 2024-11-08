@@ -125,15 +125,17 @@ const BlogList = () => {
 
   // Handle delete
   const handleDelete = async (_id) => {
-    try {
-      await axios.delete(
-        `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
-      );
-      setBlogList(blogList.filter((blog) => blog._id !== _id));
-      setTotalRows(totalRows - 1);
-      alert("Blog has been successfully deleted!");
-    } catch (error) {
-      console.error("Error deleting blog:", error);
+    if (window.confirm("Are you sure you want to delete this Blog?")) {
+      try {
+        await axios.delete(
+          `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
+        );
+        setBlogList(blogList.filter((blog) => blog._id !== _id));
+        setTotalRows(totalRows - 1);
+        alert("Blog has been successfully deleted!");
+      } catch (error) {
+        console.error("Error deleting blog:", error);
+      }
     }
   };
 
@@ -362,8 +364,15 @@ const BlogList = () => {
           </button>
 
           <div>
-            <button className='save-button' onClick={handleSaveChanges}>Save Changes</button>
-            <button className='cancel-button' onClick={() => setEditModalOpen(false)}>Cancel</button>
+            <button className="save-button" onClick={handleSaveChanges}>
+              Save Changes
+            </button>
+            <button
+              className="cancel-button"
+              onClick={() => setEditModalOpen(false)}
+            >
+              Cancel
+            </button>
           </div>
         </Modal>
       )}
