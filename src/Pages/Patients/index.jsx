@@ -1,21 +1,20 @@
-import React from 'react';
-import "./patients.css"
-import Sidebar from '../../Layout/Sidebar';
-import Header from '../../Layout/Header';
-import Patients from '../../Components/Patients/Patients';
+import React from "react";
+import "./patients.css";
+import Sidebar from "../../Layout/Sidebar";
+import Header from "../../Layout/Header";
+import Patients from "../../Components/Patients/Patients";
 
 const Patient = () => {
-    return (
-        <>
+  return (
+    <>
+      <Sidebar />
+      <Header />
 
-        <Sidebar />
-        <Header />
-
-        <div className="main-wrapper">
-            <Patients />
-        </div>
-        </>
-    )
-}
+      <div className="main-wrapper">
+        <Patients />
+      </div>
+    </>
+  );
+};
 
 export default Patient;

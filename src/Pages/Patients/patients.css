@@ -2,19 +2,32 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    font-family: Arial, sans-serif;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #f2f2f2;
-    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
 }
-td{
-    text-align: center;
+
+td {
+    font-size: 14px;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
 }
 
 .pagination {
@@ -28,10 +41,35 @@ td{
     padding: 8px 12px;
     margin: 0 5px;
     cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #45a049;
 }
 
 .pagination span {
     margin: 0 10px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
 
 .modal {
@@ -40,17 +78,82 @@ td{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 40px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     border-radius: 8px;
     width: 400px;
-  }
-  
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="date"],
+.modal-content select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="email"]:focus,
+.modal-content input[type="date"]:focus,
+.modal-content select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.modal-content button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.modal-content button:first-of-type {
+    background-color: #4CAF50;
+    color: white;
+    margin-bottom: 5px ;
+}
+
+.modal-content button:first-of-type:hover {
+    background-color: #45a049;
+}
+
+.modal-content button:last-of-type {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-content button:last-of-type:hover {
+    background-color: #e53935;
+}

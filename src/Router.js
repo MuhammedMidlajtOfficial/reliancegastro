@@ -13,6 +13,7 @@ import NewsLists from "./Pages/News/NewsList";
 import HealthLists from "./Pages/HealthPackage/HealthList";
 import CreateBlogs from "./Pages/Blog/CreateBlog";
 import BlogLists from "./Pages/Blog/BlogList";
+import Appointment from "./Pages/Appointment/Index";
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/overview" element={<Protect Component={Dashboard} />} />
+          <Route path="/appointments" element={<Protect Component={Appointment} />} />
           <Route path="/patients" element={<Protect Component={Patient} />} />
           <Route path="/news" element={<Protect Component={New} />} />
           <Route path="/newsList" element={<Protect Component={NewsLists} />} />
