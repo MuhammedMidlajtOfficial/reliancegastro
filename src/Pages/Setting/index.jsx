@@ -1,18 +1,18 @@
 import React from "react";
 import Sidebar from "../../Layout/Sidebar";
 import Header from "../../Layout/Header";
-import Appoint from '../../Components/Appointment/Appoint';
+import Settings from "../../Components/Settings/Settings";
 
-const Appointment = () => {
+const Setting = () => {
   return (
     <>
       <Sidebar />
       <Header />
 
       <div className="main-wrapper">
-      <Appoint />
+        <Settings />
       </div>
     </>
   );
 };
-export default Appointment;
+export default Setting;

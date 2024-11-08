@@ -81,20 +81,22 @@ const NewsList = () => {
 
   // Handle Save Chenges
   const handleSaveChanges = async () => {
-    try {
-      await axios.put(
-        `https://relience-test-backend.onrender.com/api/v1/cards/${selectedNews._id}`,
-        selectedNews
-      );
-      setNewsList(
-        newsList.map((news) =>
-          news._id === selectedNews._id ? selectedNews : news
-        )
-      );
-      setEditModalOpen(false);
-      alert("News has been successfully edited!");
-    } catch (error) {
-      console.error("Error updating news:", error);
+    if (window.confirm("Are you sure you want to delete this patient?")) {
+      try {
+        await axios.put(
+          `https://relience-test-backend.onrender.com/api/v1/cards/${selectedNews._id}`,
+          selectedNews
+        );
+        setNewsList(
+          newsList.map((news) =>
+            news._id === selectedNews._id ? selectedNews : news
+          )
+        );
+        setEditModalOpen(false);
+        alert("News has been successfully edited!");
+      } catch (error) {
+        console.error("Error updating news:", error);
+      }
     }
   };
 

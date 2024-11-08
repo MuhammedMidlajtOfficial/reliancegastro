@@ -8,7 +8,8 @@ export default function ShowSuccessAlert() {
     title: "Success!",
     text: "Your action was successful.",
     icon: "success",
-    confirmButtonText: "OK",
+    timer: 2000,
+    showConfirmButton: false,
     customClass: {
       popup: "custom-alert-popup",
     },

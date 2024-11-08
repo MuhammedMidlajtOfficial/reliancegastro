@@ -8,6 +8,7 @@ export default function ShowFailureAlert() {
     title: "Failed!",
     text: "Something went wrong. Please try again.",
     icon: "error",
+    timer: 2000,
     confirmButtonText: "Retry",
     customClass: {
       popup: "custom-alert-popup",
