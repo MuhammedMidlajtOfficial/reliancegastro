@@ -7,7 +7,7 @@ const RecentActivities = () => {
     const fetchImage = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/image/getImage?id=672dc97f642680964eb40c8a"
+          "https://relience-test-backend.onrender.com/api/v1/image/getImage?id=672dc97f642680964eb40c8a"
         );
 
         if (!response.ok) {
