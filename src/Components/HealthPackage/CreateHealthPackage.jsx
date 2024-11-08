@@ -31,7 +31,7 @@ const HealthCheckupForm = () => {
     };
 
     try {
-      const response = await axios.post('/api/health-checkups', data); // Update endpoint as needed
+      const response = await axios.post('https://relience-test-backend.onrender.com/api/v1/package/health-checkups', data); // Update endpoint as needed
       console.log('Health Checkup Plan submitted successfully:', response.data);
       alert('Health Checkup Plan submitted successfully');
     } catch (error) {
