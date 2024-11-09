@@ -188,7 +188,7 @@ const Dashboards = () => {
   const fetchGender = async () => {
     console.log('Fetching gender data...');
     try {
-      const response = await fetch('http://localhost:9000/api/v1/dashboard/gender');
+      const response = await fetch('https://relience-test-backend.onrender.com/api/v1/dashboard/gender');
       if (!response.ok) {  // Check if response is successful
         throw new Error(`HTTP error! status: ${response.status}`);
       }
