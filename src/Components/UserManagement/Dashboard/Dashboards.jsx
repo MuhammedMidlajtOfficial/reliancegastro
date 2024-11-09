@@ -207,11 +207,31 @@ const Dashboards = () => {
     }
   };
   
-  // Log state values after they are updated
   useEffect(() => {
-    const updatedArray = [maleCount, femaleCount, othersCount, childrenCount];
-    setGenderDataArray(updatedArray); // Assuming setGenderDataArray is a setter function for state
-  }, [maleCount, femaleCount, othersCount, childrenCount]);
+    // To avoid division by zero if patientsCount is 0
+    const malePercentage = patientsCount === 0 ? 0 : Math.round((maleCount / patientsCount) * 100);
+    const femalePercentage = patientsCount === 0 ? 0 : Math.round((femaleCount / patientsCount) * 100);
+    const othersPercentage = patientsCount === 0 ? 0 : Math.round((othersCount / patientsCount) * 100);
+    const childrenPercentage = patientsCount === 0 ? 0 : Math.round((childrenCount / patientsCount) * 100);
+  
+  
+    // Update the genderDataArray with percentage values
+    const updatedArray = [
+      malePercentage,
+      femalePercentage,
+      othersPercentage,
+      childrenPercentage,
+    ];
+  
+    // Log the updated array and state values
+    console.log('Updated Gender Data Array:', updatedArray);
+  
+    // Update the state with the new percentage values
+    setGenderDataArray(updatedArray);
+  
+  }, [maleCount, femaleCount, othersCount, childrenCount, patientsCount]);
+  
+  
   
   useEffect(() => {
     console.log('genderDataArray--', genderDataArray);
@@ -460,11 +480,6 @@ const Dashboards = () => {
           <div className='mt-4'>
             <Card
               title="Gender"
-              // extra={
-              //   <span style={{ color: '#8c8c8c' }}>
-              //     <DatePicker onChange={onChange} />
-              //   </span>
-              // }
               className="gender-card"
             >
               <center>
@@ -480,7 +495,7 @@ const Dashboards = () => {
                       style={{ backgroundColor: genderData.datasets[0].backgroundColor[index] }}
                     ></span>
                     <span className="gender-label">{label}</span>
-                    <span className="gender-percentage">{genderData.datasets[0].data[index]}%</span>
+                    <span className="gender-percentage">{genderData.datasets[0].data[index]}%</span> {/* Displaying whole percentages */}
                   </div>
                 ))}
               </div>
