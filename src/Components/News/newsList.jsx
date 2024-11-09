@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 
 const NewsList = () => {
   const [newsList, setNewsList] = useState([]);
@@ -102,17 +103,41 @@ const NewsList = () => {
 
   // Handle delete
   const handleDelete = async (_id) => {
-    try {
-      await axios.delete(
-        `https://relience-test-backend.onrender.com/api/v1/cards/${_id}`
-      );
-      setNewsList(newsList.filter((news) => news._id !== _id));
-      setTotalRows(totalRows - 1);
-      alert("News has been successfully deleted!");
-    } catch (error) {
-      console.error("Error deleting news:", error);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this News?",
+      showCancelButton: true,
+      confirmButtonColor: "#E56171",
+      cancelButtonColor: "#00963f",
+      confirmButtonText: "Yes, Delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `https://relience-test-backend.onrender.com/api/v1/cards/${_id}`
+          );
+          setNewsList(newsList.filter((news) => news._id !== _id));
+          setTotalRows(totalRows - 1);
+          Swal.fire({
+            title: "Success!",
+            text: "News was successfully deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          console.error("Error deleting News:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete News.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    });
   };
+  
 
   const columns = [
     { name: "Heading", selector: (row) => row.heading, sortable: true },

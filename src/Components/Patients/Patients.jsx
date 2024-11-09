@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
@@ -174,18 +175,39 @@ const Patients = () => {
 
   // Delete function
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this patient?")) {
-      try {
-        await axios.delete(
-          `https://relience-test-backend.onrender.com/api/v1/deleteUser/${id}`
-        );
-        alert("Patient deleted successfully");
-        fetchPatients(currentPage);
-      } catch (error) {
-        console.error("Error deleting patient:", error);
-        alert("Failed to delete patient");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to Delete this Patients?",
+      showCancelButton: true,
+      confirmButtonColor: "#E56171",
+      cancelButtonColor: "#00963f",
+      confirmButtonText: "Yes, Delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `https://relience-test-backend.onrender.com/api/v1/deleteUser/${id}`
+          );
+          Swal.fire({
+            title: "Success!",
+            text: "Patient was successfully Deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          fetchPatients(currentPage);
+        } catch (error) {
+          console.error("Error deleting Patients:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete Patients.",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
       }
-    }
+    });
   };
 
   return (

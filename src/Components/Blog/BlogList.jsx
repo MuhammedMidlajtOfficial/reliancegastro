@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Modal from "react-modal";
+import Swal from 'sweetalert2';
 
 const BlogList = () => {
   const [blogList, setBlogList] = useState([]);
@@ -125,19 +126,41 @@ const BlogList = () => {
 
   // Handle delete
   const handleDelete = async (_id) => {
-    if (window.confirm("Are you sure you want to delete this Blog?")) {
-      try {
-        await axios.delete(
-          `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
-        );
-        setBlogList(blogList.filter((blog) => blog._id !== _id));
-        setTotalRows(totalRows - 1);
-        alert("Blog has been successfully deleted!");
-      } catch (error) {
-        console.error("Error deleting blog:", error);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to Delete this Blog?",
+      showCancelButton: true,
+      confirmButtonColor: "#E56171",
+      cancelButtonColor: "#00963f",
+      confirmButtonText: "Yes, Delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
+          );
+          setBlogList(blogList.filter((blog) => blog._id !== _id));
+          setTotalRows(totalRows - 1);
+          Swal.fire({
+            title: "Success!",
+            text: "Blog was successfully Deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          console.error("Error deleting blog:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete blog.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
       }
-    }
+    });
   };
+  
 
   const columns = [
     { name: "Heading", selector: (row) => row.heading, sortable: true },
