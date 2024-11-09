@@ -26,6 +26,12 @@ const Dashboards = () => {
   const [patientsCount, setPatientsCount] = useState('');
   const [newsCount, setNewsCount] = useState('');
   const [blogsCount, setBlogsCount] = useState('');
+  const [maleCount, setMaleCount] = useState(0);
+  const [femaleCount, setFemaleCount] = useState(0);
+  const [othersCount, setOthersCount] = useState(0);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [genderDataArray, setGenderDataArray] = useState([0,0,0,0]);
+
   
   const navigate = useNavigate();
   
@@ -110,13 +116,13 @@ const Dashboards = () => {
     newPatients: { count: 25.5, growth: 15 },
     oldPatients: { count: 150.3, growth: 12 }
   };
-
+  
   const genderData = {
-    labels: ['Male', 'Female', 'Children'],
+    labels: ['Male', 'Female','Others', 'Children'],
     datasets: [
       {
-        data: [45, 80, 65],
-        backgroundColor: ['#FFA500', '#FF6347', '#32CD32'],
+        data: genderDataArray,
+        backgroundColor: ['#FFA500', '#FF6347', '#32CD32', '#3A32CD'],
         borderWidth: 0,
       },
     ],
@@ -139,7 +145,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/patientsCount`);
       if(response){
-        console.log('totalUsersCount--',response.data.totalUsersCount);
         setPatientsCount(response.data.totalUsersCount)
       }
     } catch (error) {
@@ -151,7 +156,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/newsCount`);
       if(response){
-        console.log('totalNewsCount--',response.data.totalNewsCount);
         setNewsCount(response.data.totalNewsCount)
       }
     } catch (error) {
@@ -163,7 +167,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/blogsCount`);
       if(response){
-        console.log('totalNewsCount--',response.data.totalNewsCount);
         setBlogsCount(response.data.totalBlogsCount)
       }
     } catch (error) {
@@ -175,7 +178,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/allUser`);
       if(response){
-        console.log('RecentPatients --',response.data.allUser);
         setRecentPatients(response.data.allUser)
       }
     } catch (error) {
@@ -183,7 +185,38 @@ const Dashboards = () => {
       alert("There was an error fetching the patient data. Please try again.");
     }
   };
-
+  const fetchGender = async () => {
+    console.log('Fetching gender data...');
+    try {
+      const response = await fetch('http://localhost:9000/api/v1/dashboard/gender');
+      if (!response.ok) {  // Check if response is successful
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();  // Parse the JSON response
+      console.log('Response:', data);
+      if (data) {
+        console.log('Gender Overview:', data.genderOverview);
+        setMaleCount(data.genderOverview.maleCount)
+        setFemaleCount(data.genderOverview.femaleCount)
+        setOthersCount(data.genderOverview.othersCount)
+        setChildrenCount(data.genderOverview.childrenCount)
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert("There was an error fetching the gender data. Please try again.");
+    }
+  };
+  
+  // Log state values after they are updated
+  useEffect(() => {
+    const updatedArray = [maleCount, femaleCount, othersCount, childrenCount];
+    setGenderDataArray(updatedArray); // Assuming setGenderDataArray is a setter function for state
+  }, [maleCount, femaleCount, othersCount, childrenCount]);
+  
+  useEffect(() => {
+    console.log('genderDataArray--', genderDataArray);
+  }, [genderDataArray]);
+  
 
   function formatCount(count) {
     if (count >= 10000000) {  // 1 crore (10 million)
@@ -212,7 +245,8 @@ const Dashboards = () => {
     if (userInfoFromLocalStorage) {
       setUserInfo(JSON.parse(userInfoFromLocalStorage));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    fetchGender()
     fetchRecentPatients()
     fetchPatients()
     fetchNews()
@@ -426,11 +460,11 @@ const Dashboards = () => {
           <div className='mt-4'>
             <Card
               title="Gender"
-              extra={
-                <span style={{ color: '#8c8c8c' }}>
-                  <DatePicker onChange={onChange} />
-                </span>
-              }
+              // extra={
+              //   <span style={{ color: '#8c8c8c' }}>
+              //     <DatePicker onChange={onChange} />
+              //   </span>
+              // }
               className="gender-card"
             >
               <center>
