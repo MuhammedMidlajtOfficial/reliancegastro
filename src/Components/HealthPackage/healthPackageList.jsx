@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 
 export default function HealthList() {
   const [packageList, setPackageList] = useState([]);
@@ -92,19 +93,42 @@ export default function HealthList() {
 
   // Handle delete
   const handleDelete = async (_id) => {
-    if (window.confirm("Are you sure you want to delete this Health Package?")) {
-      try {
-        await axios.delete(
-          `https://relience-test-backend.onrender.com/api/v1/package/health-checkups/${_id}`
-        );
-        setPackageList(packageList.filter((pkg) => pkg._id !== _id));
-        setTotalRows(totalRows - 1);
-        alert("Package has been successfully deleted!");
-      } catch (error) {
-        console.error("Error deleting package:", error);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to Delete this Health Package?",
+      showCancelButton: true,
+      confirmButtonColor: "#E56171",
+      cancelButtonColor: "#00963f",
+      confirmButtonText: "Yes, Delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `https://relience-test-backend.onrender.com/api/v1/package/health-checkups/${_id}`
+          );
+          setPackageList(packageList.filter((pkg) => pkg._id !== _id));
+          setTotalRows(totalRows - 1);
+          Swal.fire({
+            title: "Success!",
+            text: "Health Package was successfully Deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          console.error("Error deleting Health Package:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete Health Package.",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
       }
-    }
+    });
   };
+  
 
   const columns = [
     {
