@@ -5,6 +5,9 @@ import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { FiCalendar } from 'react-icons/fi';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -14,7 +17,7 @@ const Dashboards = () => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
-    total: 0,
+    total: 5,
   });
   
   const [setSelectedDate] = useState(null);
@@ -23,7 +26,15 @@ const Dashboards = () => {
   const [patientsCount, setPatientsCount] = useState('');
   const [newsCount, setNewsCount] = useState('');
   const [blogsCount, setBlogsCount] = useState('');
+  const [maleCount, setMaleCount] = useState(0);
+  const [femaleCount, setFemaleCount] = useState(0);
+  const [othersCount, setOthersCount] = useState(0);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [genderDataArray, setGenderDataArray] = useState([0,0,0,0]);
 
+  
+  const navigate = useNavigate();
+  
   const onChange = (date, dateString) => {
     setSelectedDate(dateString);
   };
@@ -105,13 +116,13 @@ const Dashboards = () => {
     newPatients: { count: 25.5, growth: 15 },
     oldPatients: { count: 150.3, growth: 12 }
   };
-
+  
   const genderData = {
-    labels: ['Male', 'Female', 'Children'],
+    labels: ['Male', 'Female','Others', 'Children'],
     datasets: [
       {
-        data: [45, 80, 65],
-        backgroundColor: ['#FFA500', '#FF6347', '#32CD32'],
+        data: genderDataArray,
+        backgroundColor: ['#FFA500', '#FF6347', '#32CD32', '#3A32CD'],
         borderWidth: 0,
       },
     ],
@@ -134,7 +145,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/patientsCount`);
       if(response){
-        console.log('totalUsersCount--',response.data.totalUsersCount);
         setPatientsCount(response.data.totalUsersCount)
       }
     } catch (error) {
@@ -146,7 +156,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/newsCount`);
       if(response){
-        console.log('totalNewsCount--',response.data.totalNewsCount);
         setNewsCount(response.data.totalNewsCount)
       }
     } catch (error) {
@@ -158,7 +167,6 @@ const Dashboards = () => {
     try {
       const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/dashboard/blogsCount`);
       if(response){
-        console.log('totalNewsCount--',response.data.totalNewsCount);
         setBlogsCount(response.data.totalBlogsCount)
       }
     } catch (error) {
@@ -166,6 +174,69 @@ const Dashboards = () => {
       alert("There was an error fetching the patient data. Please try again.");
     }
   };
+  const fetchRecentPatients = async () => {
+    try {
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/allUser`);
+      if(response){
+        setRecentPatients(response.data.allUser)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("There was an error fetching the patient data. Please try again.");
+    }
+  };
+  const fetchGender = async () => {
+    console.log('Fetching gender data...');
+    try {
+      const response = await fetch('https://relience-test-backend.onrender.com/api/v1/dashboard/gender');
+      if (!response.ok) {  // Check if response is successful
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();  // Parse the JSON response
+      console.log('Response:', data);
+      if (data) {
+        console.log('Gender Overview:', data.genderOverview);
+        setMaleCount(data.genderOverview.maleCount)
+        setFemaleCount(data.genderOverview.femaleCount)
+        setOthersCount(data.genderOverview.othersCount)
+        setChildrenCount(data.genderOverview.childrenCount)
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert("There was an error fetching the gender data. Please try again.");
+    }
+  };
+  
+  useEffect(() => {
+    // To avoid division by zero if patientsCount is 0
+    const malePercentage = patientsCount === 0 ? 0 : Math.round((maleCount / patientsCount) * 100);
+    const femalePercentage = patientsCount === 0 ? 0 : Math.round((femaleCount / patientsCount) * 100);
+    const othersPercentage = patientsCount === 0 ? 0 : Math.round((othersCount / patientsCount) * 100);
+    const childrenPercentage = patientsCount === 0 ? 0 : Math.round((childrenCount / patientsCount) * 100);
+  
+  
+    // Update the genderDataArray with percentage values
+    const updatedArray = [
+      malePercentage,
+      femalePercentage,
+      othersPercentage,
+      childrenPercentage,
+    ];
+  
+    // Log the updated array and state values
+    console.log('Updated Gender Data Array:', updatedArray);
+  
+    // Update the state with the new percentage values
+    setGenderDataArray(updatedArray);
+  
+  }, [maleCount, femaleCount, othersCount, childrenCount, patientsCount]);
+  
+  
+  
+  useEffect(() => {
+    console.log('genderDataArray--', genderDataArray);
+  }, [genderDataArray]);
+  
 
   function formatCount(count) {
     if (count >= 10000000) {  // 1 crore (10 million)
@@ -183,72 +254,9 @@ const Dashboards = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      const data = [
-        {
-          key: '1',
-          name: 'Annette Black',
-          id: '8013',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Male',
-          status: 'In- Process',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-        {
-          key: '2',
-          name: 'Guy Hawkins',
-          id: '5626',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Female',
-          status: 'In- Process',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-        {
-          key: '3',
-          name: 'Kristin Watson',
-          id: '6690',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Male',
-          status: 'Close',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-        {
-          key: '4',
-          name: 'Cameron',
-          id: '1784',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Children',
-          status: 'In- Process',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-        {
-          key: '5',
-          name: 'Devon Lane',
-          id: '5560',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Female',
-          status: 'In- Process',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-        {
-          key: '6',
-          name: 'Dianne Russell',
-          id: '4600',
-          phone: '987654321',
-          date: '09/12/2024',
-          gender: 'Male',
-          status: 'Close',
-          avatar: 'https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1721479574~exp=1721480174~hmac=2148b43b5ebf825f1d12d11e1e7745cdfa8a299ecdde9b29e49847d2f5c55fca'
-        },
-      ];
-      setRecentPatients(data);
       setPagination({
         ...pagination,
-        total: data.length,
+        total: recentPatients.length,
       });
       setLoading(false);
     }, 2000);
@@ -257,8 +265,9 @@ const Dashboards = () => {
     if (userInfoFromLocalStorage) {
       setUserInfo(JSON.parse(userInfoFromLocalStorage));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
+    fetchGender()
+    fetchRecentPatients()
     fetchPatients()
     fetchNews()
     fetchBlogs()
@@ -291,7 +300,7 @@ const Dashboards = () => {
       render: (text, record) => (
         <div className="patient-name">
           <img
-            src={record.avatar}
+            src={record.image}
             alt="avatar"
             className="patient-avatar"
           />
@@ -299,23 +308,24 @@ const Dashboards = () => {
         </div>
       ),
     },
-    {
-      title: 'Patient ID',
-      dataIndex: 'id',
-      key: 'id',
-      sorter: (a, b) => a.id - b.id,
-    },
+    // {
+    //   title: 'Patient ID',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    //   sorter: (a, b) => a.id - b.id,
+    // },
     {
       title: 'Phone No',
-      dataIndex: 'phone',
-      key: 'phone',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
       sorter: (a, b) => a.phone.localeCompare(b.phone),
     },
     {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      title: 'Date Of Birth',
+      dataIndex: 'DOB',
+      key: 'DOB',
+      render: (DOB) => format(new Date(DOB), 'dd/MM/yyyy'),
+      sorter: (a, b) => new Date(a.DOB) - new Date(b.DOB),
     },
     {
       title: 'Gender',
@@ -329,11 +339,19 @@ const Dashboards = () => {
       key: 'status',
       sorter: (a, b) => a.status.localeCompare(b.status),
       render: (status) => (
-        <Tag color={status === 'In- Process' ? 'green' : 'red'}>
+        <Tag
+          color={status === 'Active' ? '#e6f7e9' : '#ffebee'}
+          style={{
+            color: status === 'Active' ? '#52c41a' : '#f5222d',
+            border: 'none',
+            borderRadius: '4px',
+            padding: '2px 8px',
+          }}
+        >
           {status}
         </Tag>
       ),
-    },
+    }
   ];
 
 
@@ -342,7 +360,7 @@ const Dashboards = () => {
       <h1>Welcome, {userInfo.name}</h1>
       <p>Have a nice day at great work</p>
 
-      <div className="row">
+      <div className="row" style={{ cursor:"pointer" }} onClick={() => navigate('/newsList')}>
         <div className="col-lg-4 mb-4">
           <Card>
             <div className="statistics-data">
@@ -356,7 +374,7 @@ const Dashboards = () => {
             </div>
           </Card>
         </div>
-        <div className="col-lg-4 mb-4">
+        <div className="col-lg-4 mb-4" style={{ cursor:"pointer" }} onClick={() => navigate('/patients')}>
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-2">
@@ -369,7 +387,7 @@ const Dashboards = () => {
             </div>
           </Card>
         </div>
-        <div className="col-lg-4 mb-4">
+        <div className="col-lg-4 mb-4" style={{ cursor:"pointer" }} onClick={() => navigate('/blogList')}>
           <Card>
             <div className="statistics-data">
               <div className="statistics-icons-3">
@@ -462,11 +480,6 @@ const Dashboards = () => {
           <div className='mt-4'>
             <Card
               title="Gender"
-              extra={
-                <span style={{ color: '#8c8c8c' }}>
-                  <DatePicker onChange={onChange} />
-                </span>
-              }
               className="gender-card"
             >
               <center>
@@ -482,7 +495,7 @@ const Dashboards = () => {
                       style={{ backgroundColor: genderData.datasets[0].backgroundColor[index] }}
                     ></span>
                     <span className="gender-label">{label}</span>
-                    <span className="gender-percentage">{genderData.datasets[0].data[index]}%</span>
+                    <span className="gender-percentage">{genderData.datasets[0].data[index]}%</span> {/* Displaying whole percentages */}
                   </div>
                 ))}
               </div>
