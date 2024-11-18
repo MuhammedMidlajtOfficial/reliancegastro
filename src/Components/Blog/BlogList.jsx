@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Modal from "react-modal";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import moment from "moment";
 
 const BlogList = () => {
   const [blogList, setBlogList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedBlog, setSelectedBlog] = useState({ about: [] });
   const [totalRows, setTotalRows] = useState(0);
   const itemsPerPage = 10;
 
@@ -56,52 +57,20 @@ const BlogList = () => {
   };
 
   const handleContentChange = (index, value) => {
-    const newContent = [...selectedBlog.content];
-    newContent[index] = value;
-    setSelectedBlog({
-      ...selectedBlog,
-      content: newContent,
-    });
+    const updatedAbout = [...selectedBlog.about];
+    updatedAbout[index] = value;
+    setSelectedBlog({ ...selectedBlog, about: updatedAbout });
+  };
+
+  const removeContentPoint = (index) => {
+    const updatedAbout = selectedBlog.about.filter((_, i) => i !== index);
+    setSelectedBlog({ ...selectedBlog, about: updatedAbout });
   };
 
   const addContentPoint = () => {
     setSelectedBlog({
       ...selectedBlog,
-      content: [...selectedBlog.content, ""],
-    });
-  };
-
-  const removeContentPoint = (index) => {
-    const newContent = selectedBlog.content.filter((_, i) => i !== index);
-    setSelectedBlog({
-      ...selectedBlog,
-      content: newContent,
-    });
-  };
-
-  const handleCardDetailsChange = (index, value) => {
-    const newCardDetails = [...selectedBlog.carddetails];
-    newCardDetails[index] = value;
-    setSelectedBlog({
-      ...selectedBlog,
-      carddetails: newCardDetails,
-    });
-  };
-
-  const addCardDetail = () => {
-    setSelectedBlog({
-      ...selectedBlog,
-      carddetails: [...selectedBlog.carddetails, ""],
-    });
-  };
-
-  const removeCardDetail = (index) => {
-    const newCardDetails = selectedBlog.carddetails.filter(
-      (_, i) => i !== index
-    );
-    setSelectedBlog({
-      ...selectedBlog,
-      carddetails: newCardDetails,
+      about: [...selectedBlog.about, ""],
     });
   };
 
@@ -160,12 +129,16 @@ const BlogList = () => {
       }
     });
   };
-  
 
   const columns = [
-    { name: "Heading", selector: (row) => row.heading, sortable: true },
-    { name: "Subheading", selector: (row) => row.subheading, sortable: true },
-    { name: "About", selector: (row) => row.about, sortable: true },
+    { name: "Heading", selector: (row) => row.main, sortable: true },
+    { name: "Created by", selector: (row) => row.createdBy, sortable: true },
+    {
+      name: "Created at",
+      selector: (row) =>
+        moment(row.timeStamp).format("MMMM Do YYYY, h:mm:ss a"),
+      sortable: true,
+    },
     {
       name: "Actions",
       cell: (row) => (
@@ -293,6 +266,40 @@ const BlogList = () => {
         >
           <h2>Edit Blog</h2>
           <label>
+            Image:
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {selectedBlog.image && (
+              <img
+                src={selectedBlog.image}
+                alt="Selected"
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              />
+            )}
+          </label>
+          <label>
+            Main:
+            <input
+              type="text"
+              name="main"
+              value={selectedBlog.main}
+              onChange={(e) =>
+                setSelectedBlog({ ...selectedBlog, main: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            Created By:
+            <input
+              type="text"
+              name="createdBy"
+              value={selectedBlog.createdBy}
+              onChange={(e) =>
+                setSelectedBlog({ ...selectedBlog, createdBy: e.target.value })
+              }
+            />
+          </label>
+
+          <label>
             Heading:
             <input
               type="text"
@@ -314,76 +321,30 @@ const BlogList = () => {
               }
             />
           </label>
-          <label>
-            Background Color:
-            <input
-              type="color"
-              name="backgroundColor"
-              value={selectedBlog.backgroundColor}
-              onChange={(e) =>
-                setSelectedBlog({
-                  ...selectedBlog,
-                  backgroundColor: e.target.value,
-                })
-              }
-            />
-          </label>
-          <label>
-            Background Image:
-            <input type="file" name="cardimage" onChange={handleImageChange} />
-          </label>
-          <label>
-            About:
-            <textarea
-              name="about"
-              value={selectedBlog.about}
-              onChange={(e) =>
-                setSelectedBlog({ ...selectedBlog, about: e.target.value })
-              }
-            />
-          </label>
-          <label>Content Points:</label>
-          {selectedBlog.content.map((point, index) => (
-            <div key={index} className="rem">
-              <input
-                type="text"
-                value={point}
-                onChange={(e) => handleContentChange(index, e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={() => removeContentPoint(index)}
-                disabled={selectedBlog.content.length === 1}
-                className="remove"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+          <label>About:</label>
+          {selectedBlog.about && selectedBlog.about.length > 0 ? (
+            selectedBlog.about.map((point, index) => (
+              <div key={index} className="rem">
+                <input
+                  type="text"
+                  value={point}
+                  onChange={(e) => handleContentChange(index, e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeContentPoint(index)}
+                  disabled={selectedBlog.about.length <= 1}
+                  className="remove"
+                >
+                  Remove
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No points available</p>
+          )}
           <button type="button" className="add" onClick={addContentPoint}>
             Add Point
-          </button>
-
-          <label>Card Details:</label>
-          {selectedBlog.carddetails.map((detail, index) => (
-            <div key={index} className="rem">
-              <input
-                type="text"
-                value={detail}
-                onChange={(e) => handleCardDetailsChange(index, e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={() => removeCardDetail(index)}
-                className="remove"
-                disabled={selectedBlog.carddetails.length === 1}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button type="button" className="add" onClick={addCardDetail}>
-            Add Detail
           </button>
 
           <div>
