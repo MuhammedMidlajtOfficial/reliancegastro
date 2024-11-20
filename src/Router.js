@@ -26,6 +26,7 @@ import Doctors from "./Pages/Doctors";
 import Departments from "./Pages/DepartmentDetails";
 
 
+
 const Router = () => {
   return (
     <>
@@ -54,6 +55,7 @@ const Router = () => {
           <Route path="/healthList" element={<Protect Component={HealthLists} />} />
           <Route path="/doctor" element={<Protect Component={Doctors} />} />
           <Route path="/department" element={<Protect Component={Departments} />} />
+
         </Routes>
       </BrowserRouter>
     </>
