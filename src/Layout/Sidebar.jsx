@@ -67,10 +67,7 @@ function Sidebar() {
     {
       name: "Appointments",
       icon: <FiBriefcase className="sidebar-icon" />,
-      subMenu: [
-        { name: "Submenu 1", path: "/appointments", icon: <FiBriefcase /> },
-        { name: "Submenu 2", path: "/appointments", icon: <FiBriefcase /> },
-      ],
+      path: "/appointments"
     },
     {
       name: "Patients",
@@ -80,6 +77,11 @@ function Sidebar() {
       //   { name: "Submenu 1", path: "/patients/submenu1", icon: <FiUsers /> },
       //   { name: "Submenu 2", path: "/patients/submenu2", icon: <FiUsers /> },
       // ],
+    },
+    {
+      name: "Doctor List",
+      icon: <FiUserPlus className="sidebar-icon" />,
+      path:"/doctor"
     },
     {
       name:"Health Package",

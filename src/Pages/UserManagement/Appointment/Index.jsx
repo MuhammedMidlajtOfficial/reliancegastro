@@ -1,18 +1,20 @@
 import React from "react";
 import Sidebar from "../../../Layout/Sidebar";
 import Header from "../../../Layout/Header";
-import Appoint from "../../../Components/UserManagement/Appointment/Appoint";
+import "./appointment.css";
+import Appointment from "../../../Components/Appointment/Appointment";
 
-const Appointment = () => {
+const Appointments = () => {
   return (
     <>
       <Sidebar />
       <Header />
 
       <div className="main-wrapper">
-        <Appoint />
+        <Appointment />
       </div>
     </>
   );
 };
-export default Appointment;
+
+export default Appointments;
