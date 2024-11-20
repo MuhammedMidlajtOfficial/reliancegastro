@@ -22,6 +22,8 @@ import UserLogs from "./Pages/UserManagement/UserLog/UserLog";
 import Messages from "./Pages/Message";
 import Setting from "./Pages/Setting";
 import Notifications from "./Pages/Notification";
+import Doctors from "./Pages/Doctors";
+
 
 const Router = () => {
   return (
@@ -49,6 +51,7 @@ const Router = () => {
           <Route path="/blogList" element={<Protect Component={BlogLists} />} />
           <Route path="/health" element={<Protect Component={Health} />} />
           <Route path="/healthList" element={<Protect Component={HealthLists} />} />
+          <Route path="/doctor" element={<Protect Component={Doctors} />} />
         </Routes>
       </BrowserRouter>
     </>
