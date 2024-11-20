@@ -23,6 +23,7 @@ import Messages from "./Pages/Message";
 import Setting from "./Pages/Setting";
 import Notifications from "./Pages/Notification";
 import Doctors from "./Pages/Doctors";
+import Departments from "./Pages/DepartmentDetails";
 
 
 const Router = () => {
@@ -52,6 +53,7 @@ const Router = () => {
           <Route path="/health" element={<Protect Component={Health} />} />
           <Route path="/healthList" element={<Protect Component={HealthLists} />} />
           <Route path="/doctor" element={<Protect Component={Doctors} />} />
+          <Route path="/department" element={<Protect Component={Departments} />} />
         </Routes>
       </BrowserRouter>
     </>
