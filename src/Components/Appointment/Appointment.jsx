@@ -55,20 +55,33 @@ const AppointmentList = () => {
   };
 
   const handleSaveChanges = async () => {
+    console.log('Updating appointment with ID:', selectedAppointment._id);
     try {
-      await axios.put(
-        `https://relience-test-backend.onrender.com/api/v1/appointment/${selectedAppointment._id}`, // Update this endpoint
+      await axios.patch(
+        `https://relience-test-backend.onrender.com/api/v1/appointment/${selectedAppointment._id}`,
         selectedAppointment
-      );
+      );  
       setAppointmentList(
         appointmentList.map((appointment) =>
           appointment._id === selectedAppointment._id ? selectedAppointment : appointment
         )
       );
       setEditModalOpen(false);
-      alert("Appointment has been successfully edited!");
+      Swal.fire({
+        title: "Success!",
+        text: "Appointment was Edited successfully.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
-      console.error("Error updating appointment:", error);
+      console.error("Error Editing appointment:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to Edit appointment.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
