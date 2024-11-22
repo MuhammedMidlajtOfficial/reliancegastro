@@ -76,8 +76,9 @@ const Doctor = () => {
         )
       );
       setEditModalOpen(false);
-      alert("Doctor has been successfully edited!");
+      Swal.fire("Success", "Doctor Updated successfully!", "success");
     } catch (error) {
+      Swal.fire("Error!", "Error updating doctor.", "error",);
       console.error("Error updating doctor:", error);
     }
   };

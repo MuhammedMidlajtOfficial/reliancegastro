@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function CreateDoctor({ closeModal }) {
   const initialFormData = {
@@ -83,11 +84,12 @@ export default function CreateDoctor({ closeModal }) {
       );
 
       if (response.ok) {
-        alert("Doctor profile created successfully!");
+        Swal.fire("Success", "Doctor Created successfully!", "success");
         clearForm();
         closeModal();
       } else {
         const errorData = await response.json();
+        Swal.fire("Error!", "Failed to create Blog.", "error",);
         console.error("Failed to submit form:", errorData);
       }
     } catch (error) {

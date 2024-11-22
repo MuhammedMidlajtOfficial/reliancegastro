@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from "sweetalert2";
 import axios from 'axios';
 
 const HealthCheckupForm = () => {
@@ -33,10 +34,10 @@ const HealthCheckupForm = () => {
     try {
       const response = await axios.post('https://relience-test-backend.onrender.com/api/v1/package/health-checkups', data); // Update endpoint as needed
       console.log('Health Checkup Plan submitted successfully:', response.data);
-      alert('Health Checkup Plan submitted successfully');
+      Swal.fire("Success", "Health Checkup Plan Created successfully!", "success");
     } catch (error) {
       console.error('Error submitting Health Checkup Plan:', error);
-      alert('Failed to submit Health Checkup Plan');
+      Swal.fire("Error!", "Failed to create Health Checkup Plan.", "error",);
     }
   };
 
