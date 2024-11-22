@@ -94,9 +94,10 @@ const NewsList = () => {
           )
         );
         setEditModalOpen(false);
-        alert("News has been successfully edited!");
+        Swal.fire("Success", "News Updated successfully!", "success");
       } catch (error) {
         console.error("Error updating news:", error);
+        Swal.fire("Error!", "Error updating News.", "error",);
       }
     }
   };
@@ -120,7 +121,7 @@ const NewsList = () => {
           setTotalRows(totalRows - 1);
           Swal.fire({
             title: "Success!",
-            text: "News was successfully deleted.",
+            text: "News was deleted successfully.",
             icon: "success",
             timer: 2000,
             showConfirmButton: false,

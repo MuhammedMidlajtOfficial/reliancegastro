@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function CreateBlog() {
   const initialFormData = {
@@ -100,11 +101,12 @@ export default function CreateBlog() {
       });
 
       if (response.ok) {
-        alert("Blog created successfully!");
+      Swal.fire("Success", "Blog Created successfully!", "success");
         clearForm();
       } else {
         const errorData = await response.json();
         console.error("Failed to submit form:", errorData);
+        Swal.fire("Error!", "Failed to create Blog.", "error",);
       }
     } catch (error) {
       console.error("Error submitting form:", error);

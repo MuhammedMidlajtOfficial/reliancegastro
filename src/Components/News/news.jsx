@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from "sweetalert2";
 
 const News = () => {
     const initialFormData = {
@@ -77,11 +78,12 @@ const News = () => {
             });
 
             if (response.ok) {
-                alert("News Created successfully!");
+                Swal.fire("Success", "News Created successfully!", "success");
                 console.log("Form submitted successfully");
                 clearForm();
             } else {
                 const errorData = await response.json();
+                Swal.fire("Error!", "Failed to create News.", "error",);
                 console.error("Failed to submit form:", errorData);
             }
         } catch (error) {

@@ -85,9 +85,11 @@ export default function HealthList() {
         )
       );
       setEditModalOpen(false);
-      alert("Package has been successfully edited!");
-    } catch (error) {
+      Swal.fire("Success", "Health Checkup Plan Updated successfully!", "success");
+      } catch (error) {
       console.error("Error updating package:", error);
+      Swal.fire("Error!", "Error updating Health Checkup Plan.", "error",);
+
     }
   };
 

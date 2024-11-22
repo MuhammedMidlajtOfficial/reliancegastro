@@ -69,7 +69,7 @@ const AppointmentList = () => {
       setEditModalOpen(false);
       Swal.fire({
         title: "Success!",
-        text: "Appointment was Edited successfully.",
+        text: "Appointment was updated successfully.",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,

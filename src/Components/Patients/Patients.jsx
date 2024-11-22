@@ -164,12 +164,12 @@ const Patients = () => {
         editingPatient
       );
       console.log(editingPatient);
-      alert("Patient updated successfully");
+      Swal.fire("Success", "Patient Updated successfully!", "success");
       setShowEditModal(false);
       fetchPatients(currentPage);
     } catch (error) {
       console.error("Error updating patient:", error);
-      alert("Failed to update patient");
+      Swal.fire("Error!", "Error updating Patient.", "error",);
     }
   };
 

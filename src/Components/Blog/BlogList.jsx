@@ -87,9 +87,21 @@ const BlogList = () => {
         )
       );
       setEditModalOpen(false);
-      alert("Blog has been successfully edited!");
+      Swal.fire({
+        title: "Success!",
+        text: "Blog was updated successfully.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
-      console.error("Error updating blog:", error);
+      console.error("Error Editing appointment:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to Edit Blog.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
