@@ -77,6 +77,7 @@ const BlogList = () => {
     try {
       await axios.put(
         `https://relience-test-backend.onrender.com/api/v1/blog/${selectedBlog._id}`,
+
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
