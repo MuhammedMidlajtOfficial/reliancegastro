@@ -3,15 +3,13 @@ import Swal from "sweetalert2";
 
 export default function CreateBlog() {
   const initialFormData = {
+    image: "",
+    main: "",
+    createdBy: "",
     heading: "",
     subheading: "",
-    backgroundColor: "",
-    about: "",
-    content: [""],
-    cardabout: "",
-    carddetails: [""],
-    backgroundImage: "",
-    cardimage: "",
+    whereabout: "",
+    about: [""],
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -24,89 +22,66 @@ export default function CreateBlog() {
     });
   };
 
-  const handleContentChange = (index, value) => {
-    const newContent = [...formData.content];
-    newContent[index] = value;
+  const handleAboutChange = (index, value) => {
+    const newAbout = [...formData.about];
+    newAbout[index] = value;
     setFormData({
       ...formData,
-      content: newContent,
+      about: newAbout,
     });
   };
 
-  const addContentPoint = () => {
+  const addAboutPoint = () => {
     setFormData({
       ...formData,
-      content: [...formData.content, ""],
+      about: [...formData.about, ""],
     });
   };
 
-  const removeContentPoint = (index) => {
-    const newContent = formData.content.filter((_, i) => i !== index);
+  const removeAboutPoint = (index) => {
+    const newAbout = formData.about.filter((_, i) => i !== index);
     setFormData({
       ...formData,
-      content: newContent,
+      about: newAbout,
     });
   };
 
-  const handleCardDetailChange = (index, value) => {
-    const newDetails = [...formData.carddetails];
-    newDetails[index] = value;
-    setFormData({
-      ...formData,
-      carddetails: newDetails,
-    });
-  };
-
-  const addCardDetail = () => {
-    setFormData({
-      ...formData,
-      carddetails: [...formData.carddetails, ""],
-    });
-  };
-
-  const removeCardDetail = (index) => {
-    const newDetails = formData.carddetails.filter((_, i) => i !== index);
-    setFormData({
-      ...formData,
-      carddetails: newDetails,
-    });
-  };
-
-  const handleImageChange = (e, imageField) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
+    if (file) {
       setFormData({
         ...formData,
-        [imageField]: reader.result,
+        image: file,
       });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
     }
+    console.log(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const form = new FormData();
+    form.append("image", formData.image);
+    form.append("main", formData.main);
+    form.append("createdBy", formData.createdBy);
+    form.append("heading", formData.heading);
+    form.append("subheading", formData.subheading);
+    form.append("whereabout", formData.whereabout);
+    form.append("about", JSON.stringify(formData.about)); // Send about as JSON string if needed
+
     try {
       const response = await fetch("https://relience-test-backend.onrender.com/api/v1/blog", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: form, // Send FormData, not JSON
       });
 
       if (response.ok) {
-      Swal.fire("Success", "Blog Created successfully!", "success");
+        Swal.fire("Success", "Blog Created successfully!", "success");
         clearForm();
       } else {
         const errorData = await response.json();
         console.error("Failed to submit form:", errorData);
-        Swal.fire("Error!", "Failed to create Blog.", "error",);
+        Swal.fire("Error!", "Failed to create Blog.", "error");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -144,106 +119,70 @@ export default function CreateBlog() {
         </div>
 
         <div className="form-group">
-          <label>Background Color</label>
+          <label>Main</label>
           <input
-            type="color"
-            name="backgroundColor"
-            value={formData.backgroundColor}
+            type="text"
+            name="main"
+            value={formData.main}
             onChange={handleInputChange}
-            className="form-color-input"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Background Image</label>
-          <input
-            type="file"
-            onChange={(e) => handleImageChange(e, "backgroundImage")}
             className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label>About</label>
-          <textarea
-            name="about"
-            value={formData.about}
+          <label>Created By</label>
+          <input
+            type="text"
+            name="createdBy"
+            value={formData.createdBy}
             onChange={handleInputChange}
-            className="form-textarea"
+            className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label>Content Points</label>
-          {formData.content.map((point, index) => (
-            <div key={index} className="content-point">
+          <label>Whereabout</label>
+          <input
+            type="text"
+            name="whereabout"
+            value={formData.whereabout}
+            onChange={handleInputChange}
+            className="form-input"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Image</label>
+          <input
+            type="file"
+            onChange={handleImageChange}
+            className="form-input"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>About Points</label>
+          {formData.about.map((point, index) => (
+            <div key={index} className="about-point">
               <input
                 type="text"
                 value={point}
-                onChange={(e) => handleContentChange(index, e.target.value)}
+                onChange={(e) => handleAboutChange(index, e.target.value)}
                 className="form-input"
               />
               <button
                 type="button"
-                onClick={() => removeContentPoint(index)}
+                onClick={() => removeAboutPoint(index)}
                 className="remove-button"
-                disabled={formData.content.length === 1}
+                disabled={formData.about.length === 1}
               >
                 Remove
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={addContentPoint}
-            className="add-button"
-          >
-            Add Content Point
+          <button type="button" onClick={addAboutPoint} className="add-button">
+            Add About Point
           </button>
-        </div>
-
-        <div className="form-group">
-          <label>Card About</label>
-          <textarea
-            name="cardabout"
-            value={formData.cardabout}
-            onChange={handleInputChange}
-            className="form-textarea"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Card Details</label>
-          {formData.carddetails.map((detail, index) => (
-            <div key={index} className="card-detail">
-              <input
-                type="text"
-                value={detail}
-                onChange={(e) => handleCardDetailChange(index, e.target.value)}
-                className="form-input"
-              />
-              <button
-                type="button"
-                onClick={() => removeCardDetail(index)}
-                className="remove-button"
-                disabled={formData.carddetails.length === 1}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={addCardDetail} className="add-button">
-            Add Card Detail
-          </button>
-        </div>
-
-        <div className="form-group">
-          <label>Card Image</label>
-          <input
-            type="file"
-            onChange={(e) => handleImageChange(e, "cardimage")}
-            className="form-input"
-          />
         </div>
 
         <div className="button-group">
