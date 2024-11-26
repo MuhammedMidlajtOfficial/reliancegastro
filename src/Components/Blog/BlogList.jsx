@@ -77,6 +77,7 @@ const BlogList = () => {
     try {
       await axios.put(
         `https://relience-test-backend.onrender.com/api/v1/blog/${selectedBlog._id}`,
+
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -118,7 +119,7 @@ const BlogList = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
+            `http://localhost:9000/api/v1/blog/${_id}`
           );
           setBlogList(blogList.filter((blog) => blog._id !== _id));
           setTotalRows(totalRows - 1);
