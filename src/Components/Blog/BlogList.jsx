@@ -12,6 +12,7 @@ const BlogList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBlog, setSelectedBlog] = useState({ about: [] });
   const [totalRows, setTotalRows] = useState(0);
+  const [imageFile, setImageFile] = useState(null);
   const itemsPerPage = 10;
 
   // Fetch blog list from API
@@ -19,9 +20,7 @@ const BlogList = () => {
     try {
       const response = await axios.get(
         `https://relience-test-backend.onrender.com/api/v1/blog`,
-        {
-          params: { page, limit: itemsPerPage },
-        }
+        { params: { page, limit: itemsPerPage } }
       );
       setBlogList(response.data || []);
       setTotalRows(response.data.length);
@@ -37,22 +36,15 @@ const BlogList = () => {
   // Handle edit
   const handleEditClick = (blogItem) => {
     setSelectedBlog(blogItem);
+    setImageFile(null); // Reset image file state
     setEditModalOpen(true);
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setSelectedBlog({
-        ...selectedBlog,
-        cardimage: reader.result,
-      });
-    };
-
     if (file) {
-      reader.readAsDataURL(file);
+      setImageFile(file); // Update selected image file
+      setSelectedBlog({ ...selectedBlog, cardimage: URL.createObjectURL(file) }); // Preview new image
     }
   };
 
@@ -76,14 +68,21 @@ const BlogList = () => {
 
   // Handle Save Changes
   const handleSaveChanges = async () => {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(selectedBlog)); // Append blog data
+    if (imageFile) {
+      formData.append("image", imageFile); // Append image file if available
+    }
+
     try {
       await axios.put(
-        `https://relience-test-backend.onrender.com/api/v1/blog/${selectedBlog._id}`,
-        selectedBlog
+        `http://localhost:9000/api/v1/blog/${selectedBlog._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       setBlogList(
         blogList.map((blog) =>
-          blog._id === selectedBlog._id ? selectedBlog : blog
+          blog._id === selectedBlog._id ? { ...selectedBlog, cardimage: selectedBlog.cardimage } : blog
         )
       );
       setEditModalOpen(false);
@@ -95,7 +94,8 @@ const BlogList = () => {
         showConfirmButton: false,
       });
     } catch (error) {
-      console.error("Error Editing appointment:", error);
+      console.error("Error Editing blog:", error.response?.data || error.message);
+
       Swal.fire({
         title: "Error!",
         text: "Failed to Edit Blog.",
@@ -118,7 +118,7 @@ const BlogList = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `https://relience-test-backend.onrender.com/api/v1/blog/${_id}`
+            `http://localhost:9000/api/v1/blog/${_id}`
           );
           setBlogList(blogList.filter((blog) => blog._id !== _id));
           setTotalRows(totalRows - 1);
@@ -141,6 +141,7 @@ const BlogList = () => {
       }
     });
   };
+
 
   const columns = [
     { name: "Heading", selector: (row) => row.main, sortable: true },
