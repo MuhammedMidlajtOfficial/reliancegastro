@@ -95,6 +95,7 @@ const BlogList = () => {
       });
     } catch (error) {
       console.error("Error Editing blog:", error.response?.data || error.message);
+
       Swal.fire({
         title: "Error!",
         text: "Failed to Edit Blog.",
