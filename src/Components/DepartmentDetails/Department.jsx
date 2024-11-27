@@ -13,14 +13,12 @@ const Department = () => {
   const [totalRows, setTotalRows] = useState(0);
   const itemsPerPage = 10;
 
-  // Fetch department list from API
   const fetchDepartmentList = async (page) => {
     try {
       const response = await axios.get(
         `https://relience-test-backend.onrender.com/api/v1/department`,
         { params: { page, limit: itemsPerPage } }
       );
-      console.log("API Response:", response.data);
       setDepartmentList(response.data || []);
       setTotalRows(response.data.length || 0);
     } catch (error) {
@@ -32,7 +30,6 @@ const Department = () => {
     fetchDepartmentList(currentPage);
   }, [currentPage]);
 
-  // Handle edit
   const handleEditClick = (department) => {
     setSelectedDepartment(department);
     setEditModalOpen(true);
@@ -57,7 +54,6 @@ const Department = () => {
     }
   };
 
-  // Handle delete
   const handleDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -87,7 +83,7 @@ const Department = () => {
     { name: "Title", selector: (row) => row.title, sortable: true },
     { name: "Subtitle", selector: (row) => row.subtitle, sortable: true },
     {
-      name: "Specialist",
+      name: "Specialist Name",
       selector: (row) => row.specialist?.name || "N/A",
       sortable: true,
     },
@@ -113,9 +109,7 @@ const Department = () => {
           >
             Edit
           </button>
-          <button
-            onClick={() => handleDelete(row._id)}
-            className="delete-btn"
+          <button onClick={() => handleDelete(row._id)} className="delete-btn"
             style={{
               padding: "5px 10px",
               backgroundColor: "#ff6961", // Light red for Delete button
@@ -126,8 +120,7 @@ const Department = () => {
               transition: "background-color 0.3s ease",
             }}
             onMouseEnter={(e) => (e.target.style.backgroundColor = "#e53935")} // Darker red on hover
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff6961")}
-          >
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff6961")}>
             Delete
           </button>
         </>
@@ -206,7 +199,7 @@ const Department = () => {
             />
           </label>
 
-          {/* Specialist Section */}
+          {/* Specialist Details */}
           <h3>Specialist Details</h3>
           <label>
             Name:
@@ -241,27 +234,42 @@ const Department = () => {
             />
           </label>
           <label>
-            Image:
+            Location:
             <input
               type="text"
-              placeholder="Image URL"
-              value={selectedDepartment.specialist?.image || ""}
+              value={selectedDepartment.specialist?.location || ""}
               onChange={(e) =>
                 setSelectedDepartment({
                   ...selectedDepartment,
                   specialist: {
                     ...selectedDepartment.specialist,
-                    image: e.target.value,
+                    location: e.target.value,
+                  },
+                })
+              }
+            />
+          </label>
+          <label>
+            Photo URL:
+            <input
+              type="text"
+              value={selectedDepartment.specialist?.photo_url || ""}
+              onChange={(e) =>
+                setSelectedDepartment({
+                  ...selectedDepartment,
+                  specialist: {
+                    ...selectedDepartment.specialist,
+                    photo_url: e.target.value,
                   },
                 })
               }
             />
           </label>
 
-          {/* Success Stories Section */}
+          {/* Success Stories */}
           <h3>Success Stories</h3>
           {selectedDepartment.success_stories.map((story, index) => (
-            <div key={index} className="success-story">
+            <div key={index}>
               <label>
                 Title:
                 <input
@@ -280,14 +288,15 @@ const Department = () => {
                 />
               </label>
               <label>
-                Description:
-                <textarea
-                  value={story.description}
+                Video Thumbnail URL:
+                <input
+                  type="text"
+                  value={story.video_thumbnail_url}
                   onChange={(e) => {
                     const updatedStories = [
                       ...selectedDepartment.success_stories,
                     ];
-                    updatedStories[index].description = e.target.value;
+                    updatedStories[index].video_thumbnail_url = e.target.value;
                     setSelectedDepartment({
                       ...selectedDepartment,
                       success_stories: updatedStories,
@@ -296,16 +305,15 @@ const Department = () => {
                 />
               </label>
               <label>
-                Image:
+                Views:
                 <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={story.image}
+                  type="number"
+                  value={story.views}
                   onChange={(e) => {
                     const updatedStories = [
                       ...selectedDepartment.success_stories,
                     ];
-                    updatedStories[index].image = e.target.value;
+                    updatedStories[index].views = parseInt(e.target.value);
                     setSelectedDepartment({
                       ...selectedDepartment,
                       success_stories: updatedStories,
@@ -314,7 +322,7 @@ const Department = () => {
                 />
               </label>
               <button
-                className="remove"
+              className="remove"
                 onClick={() => {
                   const updatedStories =
                     selectedDepartment.success_stories.filter(
@@ -331,13 +339,13 @@ const Department = () => {
             </div>
           ))}
           <button
-            className="add"
+          className="add"
             onClick={() =>
               setSelectedDepartment({
                 ...selectedDepartment,
                 success_stories: [
                   ...selectedDepartment.success_stories,
-                  { title: "", description: "", image: "" },
+                  { video_thumbnail_url: "", title: "", views: 0 },
                 ],
               })
             }
@@ -346,15 +354,8 @@ const Department = () => {
           </button>
 
           <div>
-            <button className="save-button" onClick={handleSaveChanges}>
-              Save Changes
-            </button>
-            <button
-              className="cancel-button"
-              onClick={() => setEditModalOpen(false)}
-            >
-              Cancel
-            </button>
+            <button onClick={handleSaveChanges} className="save-button">Save Changes</button>
+            <button onClick={() => setEditModalOpen(false)}  className="cancel-button">Cancel</button>
           </div>
         </Modal>
       )}
