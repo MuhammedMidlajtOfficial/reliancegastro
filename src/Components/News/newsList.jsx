@@ -9,20 +9,18 @@ const NewsList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedNews, setSelectedNews] = useState(null);
+  const [selectedNews, setSelectedNews] = useState({ content: [] });
   const [totalRows, setTotalRows] = useState(0);
+  const [imageFile, setImageFile] = useState(null);
   const itemsPerPage = 10;
 
   // Fetch news list from API
   const fetchNewsList = async (page) => {
     try {
       const response = await axios.get(
-        `https://relience-test-backend.onrender.com/api/v1/cards`,
-        {
-          params: { page, limit: itemsPerPage },
-        }
+        `http://localhost:9000/api/v1/cards`,
+        { params: { page, limit: itemsPerPage } }
       );
-      console.log("API Response:", response.data);
       setNewsList(response.data || []);
       setTotalRows(response.data.length);
     } catch (error) {
@@ -37,32 +35,25 @@ const NewsList = () => {
   // Handle edit
   const handleEditClick = (newsItem) => {
     setSelectedNews(newsItem);
+    setImageFile(null); // Reset image file state
     setEditModalOpen(true);
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
+    if (file) {
+      setImageFile(file); // Update selected image file
       setSelectedNews({
         ...selectedNews,
-        backgroundImage: reader.result,
+        image: URL.createObjectURL(file), // Preview new image
       });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
     }
   };
 
   const handleContentChange = (index, value) => {
-    const newContent = [...selectedNews.content];
-    newContent[index] = value;
-    setSelectedNews({
-      ...selectedNews,
-      content: newContent,
-    });
+    const updatedContent = [...selectedNews.content];
+    updatedContent[index] = value;
+    setSelectedNews({ ...selectedNews, content: updatedContent });
   };
 
   const addContentPoint = () => {
@@ -73,32 +64,47 @@ const NewsList = () => {
   };
 
   const removeContentPoint = (index) => {
-    const newContent = selectedNews.content.filter((_, i) => i !== index);
-    setSelectedNews({
-      ...selectedNews,
-      content: newContent,
-    });
+    const updatedContent = selectedNews.content.filter((_, i) => i !== index);
+    setSelectedNews({ ...selectedNews, content: updatedContent });
   };
 
-  // Handle Save Chenges
+  // Handle Save Changes
   const handleSaveChanges = async () => {
-    if (window.confirm("Are you sure you want to delete this patient?")) {
-      try {
-        await axios.put(
-          `https://relience-test-backend.onrender.com/api/v1/cards/${selectedNews._id}`,
-          selectedNews
-        );
-        setNewsList(
-          newsList.map((news) =>
-            news._id === selectedNews._id ? selectedNews : news
-          )
-        );
-        setEditModalOpen(false);
-        Swal.fire("Success", "News Updated successfully!", "success");
-      } catch (error) {
-        console.error("Error updating news:", error);
-        Swal.fire("Error!", "Error updating News.", "error",);
-      }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(selectedNews)); // Append news data
+    if (imageFile) {
+      formData.append("image", imageFile); // Append image file if available
+    }
+    console.log([...formData.entries()]);
+    try {
+      await axios.put(
+        `http://localhost:9000/api/v1/cards/${selectedNews._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setNewsList(
+        newsList.map((news) =>
+          news._id === selectedNews._id
+            ? { ...selectedNews, image: selectedNews.image }
+            : news
+        )
+      );
+      setEditModalOpen(false);
+      Swal.fire({
+        title: "Success!",
+        text: "News updated successfully.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error updating news:", error.response?.data || error.message);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update news.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -106,7 +112,7 @@ const NewsList = () => {
   const handleDelete = async (_id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to delete this News?",
+      text: "You want to delete this news?",
       showCancelButton: true,
       confirmButtonColor: "#E56171",
       cancelButtonColor: "#00963f",
@@ -115,22 +121,22 @@ const NewsList = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `https://relience-test-backend.onrender.com/api/v1/cards/${_id}`
+            `http://localhost:9000/api/v1/cards/${_id}`
           );
           setNewsList(newsList.filter((news) => news._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire({
             title: "Success!",
-            text: "News was deleted successfully.",
+            text: "News deleted successfully.",
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
           });
         } catch (error) {
-          console.error("Error deleting News:", error);
+          console.error("Error deleting news:", error);
           Swal.fire({
             title: "Error!",
-            text: "Failed to delete News.",
+            text: "Failed to delete news.",
             icon: "error",
             confirmButtonText: "OK",
           });
@@ -138,6 +144,7 @@ const NewsList = () => {
       }
     });
   };
+
   
 
   const columns = [
@@ -310,9 +317,16 @@ const NewsList = () => {
             Background Image:
             <input
               type="file"
-              name="backgroundImage"
+              name="image"
               onChange={handleImageChange}
             />
+            {selectedNews.image && (
+              <img
+                src={selectedNews.image}
+                alt="Selected"
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              />
+            )}
           </label>
           <label>
             About:
