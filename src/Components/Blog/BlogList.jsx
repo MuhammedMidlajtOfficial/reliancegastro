@@ -19,7 +19,7 @@ const BlogList = () => {
   const fetchBlogList = async (page) => {
     try {
       const response = await axios.get(
-        `https://relience-test-backend.onrender.com/api/v1/blog`,
+        `http://localhost:9000/api/v1/blog`,
         { params: { page, limit: itemsPerPage } }
       );
       setBlogList(response.data || []);
@@ -44,7 +44,7 @@ const BlogList = () => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file); // Update selected image file
-      setSelectedBlog({ ...selectedBlog, cardimage: URL.createObjectURL(file) }); // Preview new image
+      setSelectedBlog({ ...selectedBlog, image: URL.createObjectURL(file) }); // Preview new image
     }
   };
 
@@ -76,14 +76,14 @@ const BlogList = () => {
 
     try {
       await axios.put(
-        `https://relience-test-backend.onrender.com/api/v1/blog/${selectedBlog._id}`,
+        `http://localhost:9000/api/v1/blog/${selectedBlog._id}`,
 
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
       setBlogList(
         blogList.map((blog) =>
-          blog._id === selectedBlog._id ? { ...selectedBlog, cardimage: selectedBlog.cardimage } : blog
+          blog._id === selectedBlog._id ? { ...selectedBlog, image: selectedBlog.image } : blog
         )
       );
       setEditModalOpen(false);
