@@ -6,7 +6,7 @@ const News = () => {
         heading: '',
         subheading: '',
         backgroundColor: '',
-        backgroundImage: '',
+        image: '',
         about: '',
         content: ['']
     };
@@ -17,7 +17,7 @@ const News = () => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
 
@@ -26,14 +26,14 @@ const News = () => {
         newContent[index] = value;
         setFormData({
             ...formData,
-            content: newContent
+            content: newContent,
         });
     };
 
     const addContentPoint = () => {
         setFormData({
             ...formData,
-            content: [...formData.content, '']
+            content: [...formData.content, ''],
         });
     };
 
@@ -41,57 +41,50 @@ const News = () => {
         const newContent = formData.content.filter((_, i) => i !== index);
         setFormData({
             ...formData,
-            content: newContent
+            content: newContent,
         });
     };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        
-        reader.onloadend = () => {
+        if (file) {
             setFormData({
                 ...formData,
-                backgroundImage: reader.result
+                image: file,
             });
-        };
-        
-        if (file) {
-            reader.readAsDataURL(file);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const dataToSubmit = {
-            ...formData,
-        };
+        const form = new FormData();
+        form.append("heading", formData.heading);
+        form.append("subheading", formData.subheading);
+        form.append("backgroundColor", formData.backgroundColor);
+        form.append("image", formData.image); // Send file directly
+        form.append("about", formData.about);
+        form.append("content", JSON.stringify(formData.content)); // Convert array to JSON string
 
         try {
-            const response = await fetch('https://relience-test-backend.onrender.com/api/v1/cards', {
+            const response = await fetch('http://localhost:9000/api/v1/cards', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataToSubmit)
+                body: form, // Send FormData
             });
 
             if (response.ok) {
                 Swal.fire("Success", "News Created successfully!", "success");
-                console.log("Form submitted successfully");
                 clearForm();
             } else {
                 const errorData = await response.json();
-                Swal.fire("Error!", "Failed to create News.", "error",);
                 console.error("Failed to submit form:", errorData);
+                Swal.fire("Error!", "Failed to create News.", "error");
             }
         } catch (error) {
             console.error("Error submitting form:", error);
         }
     };
 
-    // Function to clear the form
     const clearForm = () => {
         setFormData(initialFormData);
     };
@@ -108,6 +101,7 @@ const News = () => {
                         value={formData.heading}
                         onChange={handleInputChange}
                         className="form-input"
+                        required
                     />
                 </div>
 
@@ -119,6 +113,7 @@ const News = () => {
                         value={formData.subheading}
                         onChange={handleInputChange}
                         className="form-input"
+                        required
                     />
                 </div>
 
@@ -130,16 +125,18 @@ const News = () => {
                         value={formData.backgroundColor}
                         onChange={handleInputChange}
                         className="form-color-input"
+                        required
                     />
                 </div>
 
                 <div className="form-group">
-                    <label>Background Image</label>
+                    <label>Image</label>
                     <input
                         type="file"
-                        name="backgroundImage"
+                        name="image"
                         onChange={handleImageChange}
                         className="form-input"
+                        required
                     />
                 </div>
 
@@ -150,6 +147,7 @@ const News = () => {
                         value={formData.about}
                         onChange={handleInputChange}
                         className="form-textarea"
+                        required
                     />
                 </div>
 
@@ -162,6 +160,7 @@ const News = () => {
                                 value={point}
                                 onChange={(e) => handleContentChange(index, e.target.value)}
                                 className="form-input"
+                                required
                             />
                             <button
                                 type="button"
