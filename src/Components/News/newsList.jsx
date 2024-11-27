@@ -339,7 +339,8 @@ const NewsList = () => {
             />
           </label>
           <label>Content Points:</label>
-          {selectedNews.content.map((point, index) => (
+          {selectedNews.content && selectedNews.content.length > 0 ? (
+          selectedNews.content.map((point, index) => (
             <div key={index} className="rem">
               <input
                 type="text"
@@ -350,12 +351,16 @@ const NewsList = () => {
                 type="button"
                 className="remove"
                 onClick={() => removeContentPoint(index)}
-                disabled={selectedNews.content.length === 1}
+                disabled={selectedNews.content.length <= 1}
               >
                 Remove
               </button>
             </div>
-          ))}
+          ))
+          ):(
+            <p>No Points Available</p>
+          )
+        }
           <button type="button" className="add" onClick={addContentPoint}>
             Add Point
           </button>
