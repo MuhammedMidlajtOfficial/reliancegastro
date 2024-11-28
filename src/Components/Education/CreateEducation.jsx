@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+
 export default function CreateEducation({ closeModal }) {
   const initialFormData = {
     headerImage: null,
@@ -10,6 +11,7 @@ export default function CreateEducation({ closeModal }) {
     title: "",
     description: "",
     content: "", 
+
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -52,6 +54,7 @@ export default function CreateEducation({ closeModal }) {
       Swal.fire("Error!", "All fields are required.", "error");
       return;
     }
+
 
     const form = new FormData();
     form.append("headerImage", formData.headerImage);

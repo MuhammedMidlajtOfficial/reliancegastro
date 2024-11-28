@@ -22,6 +22,7 @@ const Education = () => {
     try {
       const response = await axios.get(
         "https://relience-test-backend.onrender.com/api/v1/education",
+
         {
           params: { page, limit: itemsPerPage },
         }
@@ -31,6 +32,7 @@ const Education = () => {
       setTotalRows(response.data.totalEducations); // Total number of educations
     } catch (error) {
       console.error("Error fetching education:", error);
+
     }
   };
 
@@ -67,10 +69,12 @@ const Education = () => {
     }
   };  
 
+
   const handleSaveChanges = async () => {
     try {
       await axios.put(
         `https://relience-test-backend.onrender.com/api/v1/education/${selectedEducation._id}`,
+
         selectedEducation
       );
       setEducationList(
@@ -98,6 +102,7 @@ const Education = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`https://relience-test-backend.onrender.com/api/v1/education/${_id}`);
+
           setEducationList(educationList.filter((edu) => edu._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire({
@@ -171,6 +176,7 @@ const Education = () => {
         />
         <button className="newdoc" onClick={handleAddEducationClick}>
           Add Patient Education
+
         </button>
       </div>
 
@@ -182,6 +188,7 @@ const Education = () => {
             education.description
               .toLowerCase()
               .includes(searchTerm.toLowerCase())
+
         )}
         pagination
         paginationServer
@@ -278,6 +285,7 @@ const Education = () => {
       {createModalOpen && (
         <Modal isOpen={createModalOpen} className="custom-modal">
           <CreateEducation closeModal={closeModal} />
+
         </Modal>
       )}
     </div>
