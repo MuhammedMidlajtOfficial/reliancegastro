@@ -19,7 +19,7 @@ const Doctor = () => {
   const fetchDoctorList = async (page) => {
     try {
       const response = await axios.get(
-        `https://relience-test-backend.onrender.com/api/v1/doctor`,
+        `http://localhost:9000/api/v1/doctor`,
         {
           params: { page, limit: itemsPerPage },
         }
@@ -55,7 +55,7 @@ const Doctor = () => {
     reader.onloadend = () => {
       setSelectedDoctor({
         ...selectedDoctor,
-        profileImage: reader.result,
+        image: reader.result,
       });
     };
 
@@ -67,7 +67,7 @@ const Doctor = () => {
   const handleSaveChanges = async () => {
     try {
       await axios.put(
-        `https://relience-test-backend.onrender.com/api/v1/doctor/${selectedDoctor._id}`,
+        `http://localhost:9000/api/v1/doctor/${selectedDoctor._id}`,
         selectedDoctor
       );
       setDoctorList(
@@ -95,7 +95,7 @@ const Doctor = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `https://relience-test-backend.onrender.com/api/v1/doctor/${_id}`
+            `http://localhost:9000/api/v1/doctor/${_id}`
           );
           setDoctorList(doctorList.filter((doctor) => doctor._id !== _id));
           setTotalRows(totalRows - 1);
@@ -236,13 +236,13 @@ const Doctor = () => {
           <label>
             Profile Image:
             <input type="file" accept="image/*" onChange={handleImageChange} />
-            {/* {selectedDoctor.profileImage && (
+            {selectedDoctor.image && (
               <img
-                src={selectedDoctor.profileImage}
+                src={selectedDoctor.image}
                 alt="Profile"
                 style={{ width: "100px", height: "100px" }}
               />
-            )} */}
+            )}
           </label>
           <label>
             Content:

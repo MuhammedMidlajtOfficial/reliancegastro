@@ -5,7 +5,7 @@ export default function CreateDoctor({ closeModal }) {
   const initialFormData = {
     name: "",
     specialty: "",
-    profileImage: "",
+    image: "",
     content: "",
     availableTime: "",
     patients: "",
@@ -13,6 +13,7 @@ export default function CreateDoctor({ closeModal }) {
     rating: "",
     aboutMe: "",
     location: "",
+    reviews: [], // Optionally, include reviews if needed
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -27,17 +28,11 @@ export default function CreateDoctor({ closeModal }) {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
+    if (file) {
       setFormData({
         ...formData,
-        profileImage: reader.result,
+        image: file,
       });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
     }
   };
 
@@ -71,17 +66,23 @@ export default function CreateDoctor({ closeModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const form = new FormData();
+    form.append("image", formData.image);
+    form.append("name", formData.name);
+    form.append("specialty", formData.specialty);
+    form.append("content", formData.content);
+    form.append("availableTime", formData.availableTime);
+    form.append("patients", formData.patients);
+    form.append("experienceYears", formData.experienceYears);
+    form.append("rating", formData.rating);
+    form.append("aboutMe", formData.aboutMe);
+    form.append("location", formData.location);
+
     try {
-      const response = await fetch(
-        "https://relience-test-backend.onrender.com/api/v1/doctor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("http://localhost:9000/api/v1/doctor", {
+        method: "POST",
+        body: form,
+      });
 
       if (response.ok) {
         Swal.fire("Success", "Doctor Created successfully!", "success");
@@ -89,13 +90,14 @@ export default function CreateDoctor({ closeModal }) {
         closeModal();
       } else {
         const errorData = await response.json();
-        Swal.fire("Error!", "Failed to create Blog.", "error",);
         console.error("Failed to submit form:", errorData);
+        Swal.fire("Error!", "Failed to create Doctor.", "error");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+
 
   const clearForm = () => {
     setFormData(initialFormData);
@@ -213,6 +215,46 @@ export default function CreateDoctor({ closeModal }) {
             className="form-input"
           />
         </div>
+
+        {/* Reviews Section */}
+        {/* <div className="form-group">
+          <label>Reviews</label>
+          {formData.reviews.map((review, index) => (
+            <div key={index} className="review-item">
+              <input
+                type="text"
+                value={review.review}
+                onChange={(e) =>
+                  handleReviewChange(index, "review", e.target.value)
+                }
+                className="form-input"
+                placeholder="Review"
+              />
+              <input
+                type="number"
+                value={review.rating}
+                onChange={(e) =>
+                  handleReviewChange(index, "rating", e.target.value)
+                }
+                className="form-input"
+                min="0"
+                max="5"
+                placeholder="Rating"
+              />
+              <button
+                type="button"
+                onClick={() => removeReview(index)}
+                className="remove-button"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={addReview} className="add-button">
+            Add Review
+          </button>
+        </div> */}
+
         <div className="button-group">
           <button type="submit" className="submit-button">
             Submit
