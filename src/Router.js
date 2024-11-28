@@ -24,6 +24,7 @@ import Setting from "./Pages/Setting";
 import Notifications from "./Pages/Notification";
 import Doctors from "./Pages/Doctors";
 import Departments from "./Pages/DepartmentDetails";
+import Educations from "./Pages/Education";
 
 
 
@@ -55,6 +56,8 @@ const Router = () => {
           <Route path="/healthList" element={<Protect Component={HealthLists} />} />
           <Route path="/doctor" element={<Protect Component={Doctors} />} />
           <Route path="/department" element={<Protect Component={Departments} />} />
+          <Route path="/PatientEducation" element={<Protect Component={Educations} />} />
+
 
         </Routes>
       </BrowserRouter>
