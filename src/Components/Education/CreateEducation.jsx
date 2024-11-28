@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill CSS for styling
+import "react-quill/dist/quill.snow.css";
 
 export default function CreateEducation({ closeModal }) {
   const initialFormData = {
@@ -9,7 +9,7 @@ export default function CreateEducation({ closeModal }) {
     thumbnail: null,
     title: "",
     description: "",
-    content: "", // Editor content
+    content: "", 
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -42,6 +42,16 @@ export default function CreateEducation({ closeModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      !formData.headerImage ||
+      !formData.thumbnail ||
+      !formData.title ||
+      !formData.description ||
+      !formData.content
+    ) {
+      Swal.fire("Error!", "All fields are required.", "error");
+      return;
+    }
 
     const form = new FormData();
     form.append("headerImage", formData.headerImage);
@@ -50,6 +60,11 @@ export default function CreateEducation({ closeModal }) {
     form.append("description", formData.description);
     form.append("content", formData.content);
 
+    // Log the form data for debugging
+    for (let pair of form.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    
     try {
       const response = await fetch("http://localhost:9000/api/v1/education", {
         method: "POST",

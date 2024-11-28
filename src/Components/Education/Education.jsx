@@ -21,15 +21,16 @@ const Education = () => {
   const fetchEducationList = async (page) => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/v1/education/`,
+        "https://relience-test-backend.onrender.com/api/v1/education",
         {
           params: { page, limit: itemsPerPage },
         }
       );
-      setEducationList(response.data || []);
-      setTotalRows(response.data.length);
+      // Ensure that you're using 'educations' from the response data
+      setEducationList(response.data.educations || []); // This makes sure the data is an array
+      setTotalRows(response.data.totalEducations); // Total number of educations
     } catch (error) {
-      console.error("Error fetching education data:", error);
+      console.error("Error fetching education:", error);
     }
   };
 
@@ -64,12 +65,12 @@ const Education = () => {
     if (file) {
       reader.readAsDataURL(file);
     }
-  };
+  };  
 
   const handleSaveChanges = async () => {
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/education/${selectedEducation._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/education/${selectedEducation._id}`,
         selectedEducation
       );
       setEducationList(
@@ -96,7 +97,7 @@ const Education = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:9000/api/v1/education/${_id}`);
+          await axios.delete(`https://relience-test-backend.onrender.com/api/v1/education/${_id}`);
           setEducationList(educationList.filter((edu) => edu._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire({
@@ -169,16 +170,18 @@ const Education = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className="newdoc" onClick={handleAddEducationClick}>
-          Add New Education
+          Add Patient Education
         </button>
       </div>
 
       <DataTable
         columns={columns}
-        data={educationList.filter(
-          (edu) =>
-            edu.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            edu.description.toLowerCase().includes(searchTerm.toLowerCase())
+        data={educationList?.filter(
+          (education) =>
+            education.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            education.description
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
         )}
         pagination
         paginationServer
@@ -274,7 +277,7 @@ const Education = () => {
 
       {createModalOpen && (
         <Modal isOpen={createModalOpen} className="custom-modal">
-          <CreateEducation closeModal={closeModal}/>
+          <CreateEducation closeModal={closeModal} />
         </Modal>
       )}
     </div>
