@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
-import { FiGrid, FiBriefcase,FiBookOpen, FiUsers, FiBook, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle, FiTrello } from "react-icons/fi";
+import { FiGrid, FiBriefcase,FiBookOpen, FiVideo, FiUsers, FiBook, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle, FiTrello } from "react-icons/fi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -73,6 +73,11 @@ function Sidebar() {
       name: "Patient Education",
       icon: <FiBookOpen className="sidebar-icon" />,
       path: "/PatientEducation"
+    },
+    {
+      name: "Hello Doctor",
+      icon: <FiVideo className="sidebar-icon" />,
+      path: "/helloDoctor"
     },
     {
       name: "Patients",
