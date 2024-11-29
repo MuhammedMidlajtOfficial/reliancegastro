@@ -74,12 +74,14 @@ export default function CreateEducation({ closeModal }) {
 
 
 
+
     const form = new FormData();
     form.append("headerImage", formData.headerImage);
     form.append("thumbnail", formData.thumbnail);
     form.append("title", formData.title);
     form.append("description", formData.description);
     form.append("content", JSON.stringify(jsonContent));
+
     
     try {
       const response = await fetch("http://localhost:9000/api/v1/education", {
