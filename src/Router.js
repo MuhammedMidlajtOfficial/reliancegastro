@@ -25,8 +25,7 @@ import Notifications from "./Pages/Notification";
 import Doctors from "./Pages/Doctors";
 import Departments from "./Pages/DepartmentDetails";
 import Educations from "./Pages/Education";
-
-
+import HelloDoctors from "./Pages/HelloDoctor";
 
 const Router = () => {
   return (
@@ -57,7 +56,7 @@ const Router = () => {
           <Route path="/doctor" element={<Protect Component={Doctors} />} />
           <Route path="/department" element={<Protect Component={Departments} />} />
           <Route path="/PatientEducation" element={<Protect Component={Educations} />} />
-
+          <Route path="/helloDoctor" element={<Protect Component={HelloDoctors} />} />
 
         </Routes>
       </BrowserRouter>

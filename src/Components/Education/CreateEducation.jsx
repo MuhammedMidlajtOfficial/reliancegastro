@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import { load } from "cheerio";
 
 export default function CreateEducation({ closeModal }) {
   const initialFormData = {
@@ -10,8 +10,7 @@ export default function CreateEducation({ closeModal }) {
     thumbnail: null,
     title: "",
     description: "",
-    content: "", 
-
+    content: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -55,18 +54,32 @@ export default function CreateEducation({ closeModal }) {
       return;
     }
 
+ // Use Cheerio to parse and structure the HTML
+ const $ = load(formData.content);
+
+ const jsonContent = [];
+ $("*").each((index, element) => {
+   const tagName = element.tagName; // Get tag name (e.g., p, ul, li)
+   const attributes = element.attribs || {}; // Get tag attributes (e.g., class, id)
+   const textContent = $(element).text().trim(); // Get text inside the tag
+
+   jsonContent.push({
+     tag: tagName,
+     attributes,
+     content: textContent,
+   });
+ });
+
+ console.log("Parsed Content as JSON:", jsonContent);
+
+
 
     const form = new FormData();
     form.append("headerImage", formData.headerImage);
     form.append("thumbnail", formData.thumbnail);
     form.append("title", formData.title);
     form.append("description", formData.description);
-    form.append("content", formData.content);
-
-    // Log the form data for debugging
-    for (let pair of form.entries()) {
-      console.log(pair[0], pair[1]);
-    }
+    form.append("content", JSON.stringify(jsonContent));
     
     try {
       const response = await fetch("http://localhost:9000/api/v1/education", {
@@ -75,16 +88,17 @@ export default function CreateEducation({ closeModal }) {
       });
 
       if (response.ok) {
-        Swal.fire("Success", "Patient Education Created Successfully!", "success");
+        Swal.fire("Success", "Education Created Successfully!", "success");
         clearForm();
         closeModal();
       } else {
         const errorData = await response.json();
         console.error("Failed to submit form:", errorData);
-        Swal.fire("Error!", "Failed to create Patient Education.", "error");
+        Swal.fire("Error!", "Failed to create Education.", "error");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      Swal.fire("Error!", "An unexpected error occurred.", "error");
     }
   };
 
