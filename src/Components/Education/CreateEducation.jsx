@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { load } from "cheerio";
 
 export default function CreateEducation({ closeModal }) {
   const initialFormData = {
@@ -54,32 +53,13 @@ export default function CreateEducation({ closeModal }) {
       return;
     }
 
- // Use Cheerio to parse and structure the HTML
- const $ = load(formData.content);
-
- const jsonContent = [];
- $("*").each((index, element) => {
-   const tagName = element.tagName; // Get tag name (e.g., p, ul, li)
-   const attributes = element.attribs || {}; // Get tag attributes (e.g., class, id)
-   const textContent = $(element).text().trim(); // Get text inside the tag
-
-   jsonContent.push({
-     tag: tagName,
-     attributes,
-     content: textContent,
-   });
- });
-
- console.log("Parsed Content as JSON:", jsonContent);
-
-
-
+    //Form Data
     const form = new FormData();
     form.append("headerImage", formData.headerImage);
     form.append("thumbnail", formData.thumbnail);
     form.append("title", formData.title);
     form.append("description", formData.description);
-    form.append("content", JSON.stringify(jsonContent));
+    form.append("content", formData.content);
     
     try {
       const response = await fetch("http://localhost:9000/api/v1/education", {
