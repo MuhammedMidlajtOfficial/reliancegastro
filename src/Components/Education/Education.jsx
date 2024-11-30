@@ -195,6 +195,14 @@ const Education = () => {
         paginationTotalRows={totalRows}
         paginationPerPage={itemsPerPage}
         onChangePage={(page) => setCurrentPage(page)}
+        customStyles={{
+          tableWrapper: {
+            style: {
+              width: "100%",
+              tableLayout: "fixed",
+            },
+          },
+        }}
       />
 
       {editModalOpen && selectedEducation && (
