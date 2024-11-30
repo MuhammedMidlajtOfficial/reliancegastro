@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+
 export default function CreateEducation({ closeModal }) {
   const initialFormData = {
     headerImage: null,
@@ -60,6 +61,7 @@ export default function CreateEducation({ closeModal }) {
     form.append("title", formData.title);
     form.append("description", formData.description);
     form.append("content", formData.content);
+
     
     try {
       const response = await fetch("http://localhost:9000/api/v1/education", {
