@@ -19,8 +19,9 @@ const Department = () => {
         `https://relience-test-backend.onrender.com/api/v1/department`,
         { params: { page, limit: itemsPerPage } }
       );
-      setDepartmentList(response.data || []);
-      setTotalRows(response.data.length || 0);
+      const { departments, totalDepartments } = response.data;
+      setDepartmentList(departments);
+      setTotalRows(totalDepartments);
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
@@ -109,7 +110,9 @@ const Department = () => {
           >
             Edit
           </button>
-          <button onClick={() => handleDelete(row._id)} className="delete-btn"
+          <button
+            onClick={() => handleDelete(row._id)}
+            className="delete-btn"
             style={{
               padding: "5px 10px",
               backgroundColor: "#ff6961", // Light red for Delete button
@@ -120,7 +123,8 @@ const Department = () => {
               transition: "background-color 0.3s ease",
             }}
             onMouseEnter={(e) => (e.target.style.backgroundColor = "#e53935")} // Darker red on hover
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff6961")}>
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff6961")}
+          >
             Delete
           </button>
         </>
@@ -322,7 +326,7 @@ const Department = () => {
                 />
               </label>
               <button
-              className="remove"
+                className="remove"
                 onClick={() => {
                   const updatedStories =
                     selectedDepartment.success_stories.filter(
@@ -339,7 +343,7 @@ const Department = () => {
             </div>
           ))}
           <button
-          className="add"
+            className="add"
             onClick={() =>
               setSelectedDepartment({
                 ...selectedDepartment,
@@ -354,8 +358,15 @@ const Department = () => {
           </button>
 
           <div>
-            <button onClick={handleSaveChanges} className="save-button">Save Changes</button>
-            <button onClick={() => setEditModalOpen(false)}  className="cancel-button">Cancel</button>
+            <button onClick={handleSaveChanges} className="save-button">
+              Save Changes
+            </button>
+            <button
+              onClick={() => setEditModalOpen(false)}
+              className="cancel-button"
+            >
+              Cancel
+            </button>
           </div>
         </Modal>
       )}
