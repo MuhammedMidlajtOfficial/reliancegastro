@@ -18,10 +18,9 @@ const BlogList = () => {
   // Fetch blog list from API
   const fetchBlogList = async (page) => {
     try {
-      const response = await axios.get(
-        `http://localhost:9000/api/v1/blog`,
-        { params: { page, limit: itemsPerPage } }
-      );
+      const response = await axios.get(`http://localhost:9000/api/v1/blog`, {
+        params: { page, limit: itemsPerPage },
+      });
       setBlogList(response.data || []);
       setTotalRows(response.data.length);
     } catch (error) {
@@ -83,7 +82,9 @@ const BlogList = () => {
       );
       setBlogList(
         blogList.map((blog) =>
-          blog._id === selectedBlog._id ? { ...selectedBlog, image: selectedBlog.image } : blog
+          blog._id === selectedBlog._id
+            ? { ...selectedBlog, image: selectedBlog.image }
+            : blog
         )
       );
       setEditModalOpen(false);
@@ -95,7 +96,10 @@ const BlogList = () => {
         showConfirmButton: false,
       });
     } catch (error) {
-      console.error("Error Editing blog:", error.response?.data || error.message);
+      console.error(
+        "Error Editing blog:",
+        error.response?.data || error.message
+      );
 
       Swal.fire({
         title: "Error!",
@@ -142,7 +146,6 @@ const BlogList = () => {
       }
     });
   };
-
 
   const columns = [
     { name: "Heading", selector: (row) => row.main, sortable: true },
