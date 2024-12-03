@@ -79,7 +79,7 @@ export default function CreateDoctor({ closeModal }) {
     form.append("location", formData.location);
 
     try {
-      const response = await fetch("http://localhost:9000/api/v1/doctor", {
+      const response = await fetch("https://relience-test-backend.onrender.com/api/v1/doctor", {
         method: "POST",
         body: form,
       });
