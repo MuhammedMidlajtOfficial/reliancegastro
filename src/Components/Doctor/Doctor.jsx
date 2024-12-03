@@ -49,29 +49,39 @@ const Doctor = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
+  
+    if (file) {
       setSelectedDoctor({
         ...selectedDoctor,
-        image: reader.result,
+        imageFile: file, // Store the file for upload
+        image: URL.createObjectURL(file), // For preview purposes
       });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
     }
   };
+  
 
   const handleSaveChanges = async () => {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(selectedDoctor)); // Append doctor data
+    if (selectedDoctor.imageFile) {
+      formData.append("image", selectedDoctor.imageFile); // Append image file
+    }
+  
     try {
-      await axios.put(
+      const response = await axios.put(
         `https://relience-test-backend.onrender.com/api/v1/doctor/${selectedDoctor._id}`,
-        selectedDoctor
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
+          },
+        }
       );
+  
+      const updatedDoctor = response.data; // Assuming the API returns the updated doctor object
       setDoctorList(
         doctorList.map((doctor) =>
-          doctor._id === selectedDoctor._id ? selectedDoctor : doctor
+          doctor._id === updatedDoctor._id ? updatedDoctor : doctor
         )
       );
       setEditModalOpen(false);
@@ -81,6 +91,7 @@ const Doctor = () => {
       console.error("Error updating doctor:", error);
     }
   };
+  
 
   const handleDelete = async (_id) => {
     Swal.fire({

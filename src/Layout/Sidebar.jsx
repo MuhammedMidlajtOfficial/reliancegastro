@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./layout.css";
 import logo from "../Assets/Logo/logo.svg";
 import { FiGrid, FiBriefcase,FiBookOpen, FiVideo, FiUsers, FiBook, FiSettings, FiLogOut, FiChevronDown, FiChevronUp, FiActivity, FiUserX, FiUserPlus, FiUserCheck, FiBell, FiMessageSquare, FiMenu, FiX, FiFileText, FiPlusCircle, FiTrello } from "react-icons/fi";
+import { HiOutlineUserGroup } from "react-icons/hi";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -92,6 +93,11 @@ function Sidebar() {
       name: "Doctor List",
       icon: <FiUserPlus className="sidebar-icon" />,
       path:"/doctor"
+    },
+    {
+      name: "Community Post",
+      icon: <HiOutlineUserGroup className="sidebar-icon" />,
+      path:"/posts"
     },
     {
     name: "Department Details",

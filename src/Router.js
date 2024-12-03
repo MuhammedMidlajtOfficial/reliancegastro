@@ -26,6 +26,7 @@ import Doctors from "./Pages/Doctors";
 import Departments from "./Pages/DepartmentDetails";
 import Educations from "./Pages/Education";
 import HelloDoctors from "./Pages/HelloDoctor";
+import Posts from "./Pages/Posts";
 
 const Router = () => {
   return (
@@ -57,6 +58,7 @@ const Router = () => {
           <Route path="/department" element={<Protect Component={Departments} />} />
           <Route path="/PatientEducation" element={<Protect Component={Educations} />} />
           <Route path="/helloDoctor" element={<Protect Component={HelloDoctors} />} />
+          <Route path="/posts" element={<Protect Component={Posts} />} />          
 
         </Routes>
       </BrowserRouter>
