@@ -24,6 +24,7 @@ const Doctor = () => {
       // Set doctorList to the `doctor` array from the response
       setDoctorList(response.data.doctor || []);
       setTotalRows(response.data.totalDoctors || 0); // Use totalDoctors for pagination
+
     } catch (error) {
       console.error("Error fetching doctors:", error);
     }
