@@ -18,7 +18,7 @@ const Doctor = () => {
   // Fetch doctor list
   const fetchDoctorList = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/v1/doctor`, {
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/doctor`, {
         params: { page, limit: itemsPerPage },
       });
       // Set doctorList to the `doctor` array from the response
@@ -65,7 +65,7 @@ const Doctor = () => {
   const handleSaveChanges = async () => {
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/doctor/${selectedDoctor._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/doctor/${selectedDoctor._id}`,
         selectedDoctor
       );
       setDoctorList(
@@ -93,7 +93,7 @@ const Doctor = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:9000/api/v1/doctor/${_id}`
+            `https://relience-test-backend.onrender.com/api/v1/doctor/${_id}`
           );
           setDoctorList(doctorList.filter((doctor) => doctor._id !== _id));
           setTotalRows(totalRows - 1);
