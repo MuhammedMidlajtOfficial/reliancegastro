@@ -19,7 +19,7 @@ const Doctor = () => {
   const fetchDoctorList = async (page) => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/v1/doctor`,
+        `https://relience-test-backend.onrender.com/api/v1/doctor`,
         {
           params: { page, limit: itemsPerPage },
         }

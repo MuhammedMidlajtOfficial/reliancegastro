@@ -69,7 +69,7 @@ export default function CreateBlog() {
     form.append("about", JSON.stringify(formData.about)); // Send about as JSON string if needed
 
     try {
-      const response = await fetch("http://localhost:9000/api/v1/blog", {
+      const response = await fetch("https://relience-test-backend.onrender.com/api/v1/blog", {
         method: "POST",
         body: form, // Send FormData, not JSON
       });

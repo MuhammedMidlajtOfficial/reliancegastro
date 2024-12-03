@@ -18,7 +18,7 @@ const NewsList = () => {
   const fetchNewsList = async (page) => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/v1/cards`,
+        `https://relience-test-backend.onrender.com/api/v1/cards`,
         { params: { page, limit: itemsPerPage } }
       );
       setNewsList(response.data || []);
@@ -78,7 +78,7 @@ const NewsList = () => {
     console.log([...formData.entries()]);
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/cards/${selectedNews._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/cards/${selectedNews._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -121,7 +121,7 @@ const NewsList = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:9000/api/v1/cards/${_id}`
+            `https://relience-test-backend.onrender.com/api/v1/cards/${_id}`
           );
           setNewsList(newsList.filter((news) => news._id !== _id));
           setTotalRows(totalRows - 1);

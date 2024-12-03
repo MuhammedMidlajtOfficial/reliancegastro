@@ -19,7 +19,7 @@ const AppointmentList = () => {
   const fetchAppointmentList = async (page) => {
     try {
       const response = await axios.get(
-        `https://relience-test-backend.onrender.com/api/v1/appointment`, // Update this API endpoint
+        `https://relience-test-backend.onrender.com/api/v1/appointment`,
         {
           params: { page, limit: itemsPerPage },
         }
