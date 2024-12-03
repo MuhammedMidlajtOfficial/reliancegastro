@@ -18,7 +18,7 @@ const HelloDoctor = () => {
   // Fetch video list
   const fetchVideoList = async (page) => {
     try {
-      const response = await axios.get("http://localhost:9000/api/v1/videos", {
+      const response = await axios.get("https://relience-test-backend.onrender.com/api/v1/videos", {
         params: { page, limit: itemsPerPage },
       });
       const data = response.data; // Adjusted to the actual response structure
@@ -50,7 +50,7 @@ const HelloDoctor = () => {
   const handleSaveChanges = async () => {
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/videos/${selectedVideo._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/videos/${selectedVideo._id}`,
         selectedVideo
       );
       setVideoList(
@@ -77,7 +77,7 @@ const HelloDoctor = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:9000/api/v1/videos/${_id}`);
+          await axios.delete(`https://relience-test-backend.onrender.com/api/v1/videos/${_id}`);
           setVideoList(videoList.filter((video) => video._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire("Deleted!", "The video has been deleted.", "success");

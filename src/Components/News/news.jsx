@@ -67,7 +67,7 @@ const News = () => {
         form.append("content", JSON.stringify(formData.content)); // Convert array to JSON string
 
         try {
-            const response = await fetch('http://localhost:9000/api/v1/cards', {
+            const response = await fetch('https://relience-test-backend.onrender.com/api/v1/cards', {
                 method: 'POST',
                 body: form, // Send FormData
             });

@@ -26,7 +26,7 @@ export default function CreateHelloDoctor({ closeModal }) {
     }
 
     try {
-      const response = await fetch("http://localhost:9000/api/v1/videos", {
+      const response = await fetch("https://relience-test-backend.onrender.com/api/v1/videos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

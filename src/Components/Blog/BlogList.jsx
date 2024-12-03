@@ -18,7 +18,7 @@ const BlogList = () => {
   // Fetch blog list from API
   const fetchBlogList = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/v1/blog`, {
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/blog`, {
         params: { page, limit: itemsPerPage },
       });
       setBlogList(response.data || []);
@@ -75,7 +75,7 @@ const BlogList = () => {
 
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/blog/${selectedBlog._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/blog/${selectedBlog._id}`,
 
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }

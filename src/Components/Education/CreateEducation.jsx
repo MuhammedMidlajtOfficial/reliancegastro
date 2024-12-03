@@ -64,7 +64,7 @@ export default function CreateEducation({ closeModal }) {
 
     
     try {
-      const response = await fetch("http://localhost:9000/api/v1/education", {
+      const response = await fetch("https://relience-test-backend.onrender.com/api/v1/education", {
         method: "POST",
         body: form,
       });

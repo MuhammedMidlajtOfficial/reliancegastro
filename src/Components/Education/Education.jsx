@@ -73,7 +73,7 @@ const Education = () => {
   const handleSaveChanges = async () => {
     try {
       await axios.put(
-        `http://localhost:9000/api/v1/education/${selectedEducation._id}`,
+        `https://relience-test-backend.onrender.com/api/v1/education/${selectedEducation._id}`,
 
         selectedEducation
       );
@@ -101,7 +101,7 @@ const Education = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:9000/api/v1/education/${_id}`);
+          await axios.delete(`https://relience-test-backend.onrender.com/api/v1/education/${_id}`);
 
           setEducationList(educationList.filter((edu) => edu._id !== _id));
           setTotalRows(totalRows - 1);
