@@ -13,20 +13,27 @@ const Post = () => {
   const [totalRows, setTotalRows] = useState(0);
   const itemsPerPage = 10;
 
-  // Fetch posts with reportCounts > 1
+  // Fetch all posts
   const fetchPostList = async (page) => {
     try {
-      const response = await axios.get(
-        `https://relience-test-backend.onrender.com/api/v1/posts`,
-        {
-          params: { page, limit: itemsPerPage, minReports: 1 },
-        }
+      const response = await axios.get(`http://localhost:9000/api/v1/post/`, {
+        params: {
+          page,
+          limit: itemsPerPage,
+        },
+      });
+
+      // Filter posts to show only those with reportCounts > 0
+      const filteredPosts = response.data.data.filter(
+        (post) => post.reportCounts > 0
       );
-      const filteredPosts = response.data.posts.filter(
-        (post) => post.reportCounts > 1
-      );
-      setPostList(filteredPosts);
-      setTotalRows(response.data.totalPosts || 0);
+
+      // Update the state with filtered posts
+      setPostList(filteredPosts || []);
+
+      // Update the total rows count, making sure it's based on filtered posts
+      setTotalRows(filteredPosts.length || 0);
+
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -52,9 +59,7 @@ const Post = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(
-            `https://relience-test-backend.onrender.com/api/v1/posts/${_id}`
-          );
+          await axios.delete(`http://localhost:9000/api/v1/post//${_id}`);
           setPostList(postList.filter((post) => post._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire({
@@ -89,12 +94,38 @@ const Post = () => {
       name: "Actions",
       cell: (row) => (
         <>
-          <button onClick={() => handleViewClick(row)} className="view-button">
+          <button
+            onClick={() => handleViewClick(row)}
+            className="view-button"
+            style={{
+              marginRight: "10px",
+              padding: "5px 10px",
+              backgroundColor: "#6fbf73", // Green shade for Edit button
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#4caf50")} // Darken on hover
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#6fbf73")}
+          >
             View
           </button>
           <button
             onClick={() => handleDelete(row._id)}
             className="delete-button"
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#ff6961", // Light red for Delete button
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#e53935")} // Darker red on hover
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff6961")}
           >
             Delete
           </button>
@@ -133,8 +164,22 @@ const Post = () => {
         <Modal
           isOpen={viewModalOpen}
           onRequestClose={() => setViewModalOpen(false)}
+          className="custom-modal"
         >
           <h2>View Post Details</h2>
+          <img
+            src={selectedPost.userId.image || "https://reliancehospital.s3.eu-north-1.amazonaws.com/avatar.png"} // Use default avatar if image is empty
+            alt={selectedPost.userId.name}
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              marginRight: "10px",
+            }}
+          />
+          <p>
+            <strong>Posted by:</strong> {selectedPost.userId.name}
+          </p>
           <p>
             <strong>Title:</strong> {selectedPost.title}
           </p>
@@ -156,7 +201,9 @@ const Post = () => {
           <p>
             <strong>Shares:</strong> {selectedPost.shareCounts}
           </p>
-          <button onClick={() => setViewModalOpen(false)}>Close</button>
+          <button onClick={() => setViewModalOpen(false)} className="add">
+            Close
+          </button>
         </Modal>
       )}
     </div>
