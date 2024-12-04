@@ -33,6 +33,7 @@ const Post = () => {
 
       // Update the total rows count, making sure it's based on filtered posts
       setTotalRows(filteredPosts.length || 0);
+
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -200,7 +201,6 @@ const Post = () => {
           <p>
             <strong>Shares:</strong> {selectedPost.shareCounts}
           </p>
-
           <button onClick={() => setViewModalOpen(false)} className="add">
             Close
           </button>
