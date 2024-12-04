@@ -24,12 +24,14 @@ const AppointmentList = () => {
           params: { page, limit: itemsPerPage },
         }
       );
-      setAppointmentList(response.data || []);
-      setTotalRows(response.data.length);
+      // Assuming the response contains the array inside `data.appointment`
+      setAppointmentList(response.data.appointment || []);
+      setTotalRows(response.data.total || response.data.appointment.length || 0); // Adjust for total rows
     } catch (error) {
-      console.error("Error fetching appointments:", error);
+      console.error("Error fetching appointment:", error);
     }
   };
+  
 
   // Fetch list of doctors for doctor selection in the form
   const fetchDoctorsList = async () => {
@@ -55,15 +57,17 @@ const AppointmentList = () => {
   };
 
   const handleSaveChanges = async () => {
-    console.log('Updating appointment with ID:', selectedAppointment._id);
+    console.log("Updating appointment with ID:", selectedAppointment._id);
     try {
       await axios.patch(
         `https://relience-test-backend.onrender.com/api/v1/appointment/${selectedAppointment._id}`,
         selectedAppointment
-      );  
+      );
       setAppointmentList(
         appointmentList.map((appointment) =>
-          appointment._id === selectedAppointment._id ? selectedAppointment : appointment
+          appointment._id === selectedAppointment._id
+            ? selectedAppointment
+            : appointment
         )
       );
       setEditModalOpen(false);
@@ -100,7 +104,9 @@ const AppointmentList = () => {
           await axios.delete(
             `https://relience-test-backend.onrender.com/api/v1/appointment/${_id}` // Update this endpoint
           );
-          setAppointmentList(appointmentList.filter((appointment) => appointment._id !== _id));
+          setAppointmentList(
+            appointmentList.filter((appointment) => appointment._id !== _id)
+          );
           setTotalRows(totalRows - 1);
           Swal.fire({
             title: "Success!",
@@ -123,9 +129,22 @@ const AppointmentList = () => {
   };
 
   const columns = [
-    { name: "Patient Name", selector: (row) => row.patientName, sortable: true },
-    { name: "Appointment Date", selector: (row) => moment(row.appointmentDateTime).format("MMMM Do YYYY, h:mm:ss a"), sortable: true },
-    { name: "Payment Status", selector: (row) => row.paymentStatus, sortable: true },
+    {
+      name: "Patient Name",
+      selector: (row) => row.patientName,
+      sortable: true,
+    },
+    {
+      name: "Appointment Date",
+      selector: (row) =>
+        moment(row.appointmentDateTime).format("MMMM Do YYYY, h:mm:ss a"),
+      sortable: true,
+    },
+    {
+      name: "Payment Status",
+      selector: (row) => row.paymentStatus,
+      sortable: true,
+    },
     {
       name: "Actions",
       cell: (row) => (
@@ -231,9 +250,10 @@ const AppointmentList = () => {
 
       <DataTable
         columns={columns}
-        data={appointmentList.filter(
-          (appointment) =>
-            appointment.patientName.toLowerCase().includes(searchTerm.toLowerCase())
+        data={(appointmentList || []).filter((appointment) =>
+          appointment.patientName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
         )}
         pagination
         paginationServer
@@ -251,7 +271,7 @@ const AppointmentList = () => {
           className="custom-modal"
         >
           <h2>Edit Appointment</h2>
-          
+
           {/* Doctor selection */}
           <div>
             <label htmlFor="doctorId">Doctor:</label>
@@ -395,7 +415,11 @@ const AppointmentList = () => {
             <input
               type="datetime-local"
               id="appointmentDateTime"
-              value={moment(selectedAppointment.appointmentDateTime).format("YYYY-MM-DDTHH:mm") || ""}
+              value={
+                moment(selectedAppointment.appointmentDateTime).format(
+                  "YYYY-MM-DDTHH:mm"
+                ) || ""
+              }
               onChange={(e) =>
                 setSelectedAppointment({
                   ...selectedAppointment,
