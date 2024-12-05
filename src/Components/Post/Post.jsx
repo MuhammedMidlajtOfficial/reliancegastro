@@ -16,7 +16,7 @@ const Post = () => {
   // Fetch all posts
   const fetchPostList = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/v1/post/`, {
+      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/post/`, {
         params: {
           page,
           limit: itemsPerPage,
@@ -59,7 +59,7 @@ const Post = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:9000/api/v1/post//${_id}`);
+          await axios.delete(`https://relience-test-backend.onrender.com/api/v1/post//${_id}`);
           setPostList(postList.filter((post) => post._id !== _id));
           setTotalRows(totalRows - 1);
           Swal.fire({
