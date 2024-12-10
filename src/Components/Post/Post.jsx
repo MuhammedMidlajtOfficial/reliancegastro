@@ -9,39 +9,27 @@ const Post = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalRows, setTotalRows] = useState(0);
-  const itemsPerPage = 10;
 
   // Fetch all posts
-  const fetchPostList = async (page) => {
+  const fetchPostList = async () => {
     try {
-      const response = await axios.get(`https://relience-test-backend.onrender.com/api/v1/post/`, {
-        params: {
-          page,
-          limit: itemsPerPage,
-        },
-      });
-
-      // Filter posts to show only those with reportCounts > 0
-      const filteredPosts = response.data.data.filter(
-        (post) => post.reportCounts > 0
+      const response = await axios.get(`http://localhost:9000/api/v1/post`,
+        { params: { noPagination: true } }
       );
+      console.log(response.data.data);
+      // Filter posts to show only those with reportCounts > 0
+      const filteredPosts = response.data.filter((post) => post.reportCounts > 0);
 
       // Update the state with filtered posts
       setPostList(filteredPosts || []);
-
-      // Update the total rows count, making sure it's based on filtered posts
-      setTotalRows(filteredPosts.length || 0);
-
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
 
   useEffect(() => {
-    fetchPostList(currentPage);
-  }, [currentPage]);
+    fetchPostList();
+  }, []);
 
   const handleViewClick = (post) => {
     setSelectedPost(post);
@@ -59,9 +47,10 @@ const Post = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://relience-test-backend.onrender.com/api/v1/post//${_id}`);
+          await axios.delete(
+            `https://relience-test-backend.onrender.com/api/v1/post/${_id}`
+          );
           setPostList(postList.filter((post) => post._id !== _id));
-          setTotalRows(totalRows - 1);
           Swal.fire({
             title: "Success!",
             text: "Post successfully deleted.",
@@ -153,11 +142,8 @@ const Post = () => {
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.content.toLowerCase().includes(searchTerm.toLowerCase())
         )}
-        pagination
-        paginationServer
-        paginationTotalRows={totalRows}
-        paginationPerPage={itemsPerPage}
-        onChangePage={(page) => setCurrentPage(page)}
+        noHeader
+        noPagination
       />
 
       {viewModalOpen && selectedPost && (
@@ -168,7 +154,10 @@ const Post = () => {
         >
           <h2>View Post Details</h2>
           <img
-            src={selectedPost.userId.image || "https://reliancehospital.s3.eu-north-1.amazonaws.com/avatar.png"} // Use default avatar if image is empty
+            src={
+              selectedPost.userId.image ||
+              "https://reliancehospital.s3.eu-north-1.amazonaws.com/avatar.png"
+            } // Use default avatar if image is empty
             alt={selectedPost.userId.name}
             style={{
               width: "50px",
@@ -201,6 +190,36 @@ const Post = () => {
           <p>
             <strong>Shares:</strong> {selectedPost.shareCounts}
           </p>
+          {selectedPost.imageUrls && selectedPost.imageUrls.length > 0 && (
+            <div>
+              <strong>Images:</strong>
+              <div>
+                {selectedPost.imageUrls.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Post Image ${index + 1}`}
+                    style={{ width: "100px", marginRight: "10px" }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          {selectedPost.videoUrls && selectedPost.videoUrls.length > 0 && (
+            <div>
+              <strong>Videos:</strong>
+              <div>
+                {selectedPost.videoUrls.map((url, index) => (
+                  <video
+                    key={index}
+                    src={url}
+                    controls
+                    style={{ width: "200px", marginRight: "10px" }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <button onClick={() => setViewModalOpen(false)} className="add">
             Close
           </button>
